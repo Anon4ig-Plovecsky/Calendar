@@ -3,20 +3,19 @@ import java.awt.Graphics
 import java.awt.Color
 import java.awt.Dimension
 
-class Calendar (
-    private var xCoord: Int,
-    private var yCoord: Int
+class Day (
 
         ) : JPanel() {
-    private val daySize = 50
+    private val dayWidth = 60
+    private val dayHeight = 50
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         g?.color = Color(13, 13, 13)
-        g?.drawRect(xCoord, yCoord, daySize, daySize)
-
+        g?.drawRect(0, 0, dayWidth, dayHeight)
+        repaint()
     }
 
     override fun getPreferredSize(): Dimension {
-        return Dimension(500, 600)
+        return Dimension(dayWidth, dayHeight)
     }
 }
