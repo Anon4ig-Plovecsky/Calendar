@@ -15,14 +15,17 @@ class Button (
         super.paintComponent(g)
         background = standardColor
         g?.color = whiteColor
-        g?.drawRect(0, 0, buttonWidth, buttonHeight)
+        g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
+        setText()
     }
     override fun getPreferredSize(): Dimension {
         return Dimension(buttonWidth, buttonHeight)
     }
     private fun setText() {
-        val buttonText = JLabel(text)
+        val buttonText = JLabel("\n$text")
         buttonText.foreground = whiteColor
+        buttonText.alignmentX = CENTER_ALIGNMENT
+        buttonText.alignmentY = CENTER_ALIGNMENT
         add(buttonText)
     }
 }

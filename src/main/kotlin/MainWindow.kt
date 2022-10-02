@@ -9,21 +9,24 @@ class MainWindow : JFrame() {
         val whiteColor = Color(207, 199, 190)
     }
     private val windowWidth = 420
-    private val windowHeight = 400
+    private val windowHeight = 350
     private val days = Array(42) { Day() }
     private lateinit var layoutFrame: GridBagLayout
     private lateinit var gridBagConstraints:GridBagConstraints
-    private lateinit var buttonDays: JButton
-    private lateinit var buttonMonths: JButton
-    private lateinit var buttonYears: JButton
+//    private lateinit var buttonDays: JButton
+//    private lateinit var buttonMonths: JButton
+//    private lateinit var buttonYears: JButton
+    private lateinit var buttonDays: Button
+    private lateinit var buttonMonths: Button
+    private lateinit var buttonYears: Button
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
         isVisible = true
         createLayout()
         title = "Календарь"
         defaultCloseOperation = EXIT_ON_CLOSE
-        contentPane.background = Color(28, 28, 36)
-        contentPane.foreground = Color(28, 28, 36)
+        contentPane.background = standardColor
+        contentPane.foreground = standardColor
         isResizable = false
         setLocationRelativeTo(null)
         pack()
@@ -55,31 +58,40 @@ class MainWindow : JFrame() {
                 return Dimension(windowWidth, 50)
             }
         }
-        buttonDays = JButton("Дни")
-        buttonMonths = JButton("Месяцы")
-        buttonYears = JButton("Годы")
-        buttonDays.background = Color(28, 28, 36)
-        buttonMonths.background = Color(28, 28, 36)
-        buttonYears.background = Color(28, 28, 36)
-        buttonDays.foreground = Color(255, 255, 255)
-        buttonMonths.foreground = Color(255, 255, 255)
-        buttonYears.foreground = Color(255, 255, 255)
-        buttonDays.font = Font("Noto Sans", Font.PLAIN, 13)
+        setButtons()
+//        buttonDays = JButton("Дни")
+//        buttonMonths = JButton("Месяцы")
+//        buttonYears = JButton("Годы")
+//        buttonDays.background = Color(28, 28, 36)
+//        buttonMonths.background = Color(28, 28, 36)
+//        buttonYears.background = Color(28, 28, 36)
+//        buttonDays.foreground = Color(255, 255, 255)
+//        buttonMonths.foreground = Color(255, 255, 255)
+//        buttonYears.foreground = Color(255, 255, 255)
+//        buttonDays.font = Font("Noto Sans", Font.PLAIN, 13)
         //------------------Background-------------------//
         setGridBagConstraint(0, 0, 1, 14)
         add(backgroundArrowButtonsPanel, gridBagConstraints)
-        //----------Button days-----------//
-        setGridBagConstraint(0, 0, 1, 3)
-        add(buttonDays, gridBagConstraints)
-        //---------Button months----------//
-        setGridBagConstraint(3, 0, 1, 4)
-        add(buttonMonths, gridBagConstraints)
-        //----------Button years----------//
-        setGridBagConstraint(7, 0, 1, 3)
-        add(buttonYears, gridBagConstraints)
+//        //----------Button days-----------//
+//        setGridBagConstraint(0, 0, 1, 3)
+//        add(buttonDays, gridBagConstraints)
+//        //---------Button months----------//
+//        setGridBagConstraint(3, 0, 1, 4)
+//        add(buttonMonths, gridBagConstraints)
+//        //----------Button years----------//
+//        setGridBagConstraint(7, 0, 1, 3)
+//        add(buttonYears, gridBagConstraints)
     }
     private fun setButtons() {
-
+        buttonDays = Button(120, 40, "Дни")
+        setGridBagConstraint(0, 0, 1, 5)
+        add(buttonDays, gridBagConstraints)
+//        buttonMonths = Button(80, 20, "Месяцы")
+//        setGridBagConstraint(3, 0, 1, 4)
+//        add(buttonMonths, gridBagConstraints)
+//        buttonYears = Button(70, 20, "Годы")
+//        setGridBagConstraint(7, 0, 1, 3)
+//        add(buttonYears, gridBagConstraints)
     }
     private fun setGridBagConstraint(gridX: Int, gridY: Int, gridHeight: Int, gridWidth: Int) {
         gridBagConstraints.gridx = gridX
