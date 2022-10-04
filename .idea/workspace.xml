@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Something works out">
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Was set gridbaglayout">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/ButtonsPanel.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/DateQualifier.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Button.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Button.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Day.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Day.kt" afterDir="false" />
@@ -19,6 +21,21 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -72,7 +89,12 @@
       <updated>1664537378684</updated>
       <workItem from="1664537391065" duration="19975000" />
       <workItem from="1664614852929" duration="24073000" />
-      <workItem from="1664708125582" duration="1319000" />
+      <workItem from="1664708125582" duration="2078000" />
+      <workItem from="1664713523659" duration="14852000" />
+      <workItem from="1664778198366" duration="2098000" />
+      <workItem from="1664817358334" duration="3253000" />
+      <workItem from="1664875996571" duration="10974000" />
+      <workItem from="1664893771247" duration="8959000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -102,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664646411393</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Was set gridbaglayout">
+      <created>1664710128017</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664710128017</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -123,6 +152,7 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Small non-working developments" />
     <MESSAGE value="Something works out" />
-    <option name="LAST_COMMIT_MESSAGE" value="Something works out" />
+    <MESSAGE value="Was set gridbaglayout" />
+    <option name="LAST_COMMIT_MESSAGE" value="Was set gridbaglayout" />
   </component>
 </project>
