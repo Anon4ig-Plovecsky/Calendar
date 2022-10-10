@@ -1,37 +1,46 @@
+import MainWindow.Companion.setGridBagConstraint
 import MainWindow.Companion.standardColor
+import MainWindow.Companion.dayHeight
+import MainWindow.Companion.dayWidth
 import javax.swing.JPanel
 import javax.swing.JLabel
 import java.awt.*
 
-class Day (
+class Day(
     private val numberOfDay: Int?,
     private val currentDay: Boolean,
     private val currentMonth: Boolean
-    ) : JPanel() {
-    private val dayWidth = 60
-    private val dayHeight = 50
+) : JPanel() {
+    private var draw: Graphics? = graphics
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         background = standardColor
-        if(currentDay)
-            g?.color = MainWindow.highlightedAreaColor
-        else g?.color = standardColor
-        g?.drawRect(0, 0, dayWidth - 1, dayHeight - 1)
-        setNumberOfDay()
+        draw = g!!
+        isOpaque = true
+        setDay(numberOfDay, currentDay, currentMonth)
     }
     override fun getPreferredSize(): Dimension {
         return Dimension(dayWidth, dayHeight)
     }
-    private fun setNumberOfDay() {
-        layout = GridBagLayout()
-        val numberOfDay = JLabel(numberOfDay.toString())
-        numberOfDay.font = Font("Noto Sans", Font.PLAIN, 14)
+    fun setDay(numberOfDay: Int?, currentDay: Boolean, currentMonth: Boolean) {
         if(currentDay)
-            numberOfDay.foreground = MainWindow.highlightedAreaColor
+            draw?.color = MainWindow.highlightedAreaColor
+        else draw?.color = standardColor
+        draw?.drawRect(0, 0, dayWidth - 1, dayHeight - 1)
+        setNumberOfDay(numberOfDay.toString(), currentDay, currentMonth)
+    }
+    fun setNumberOfDay(numberOfDayString: String, currentDay: Boolean, currentMonth: Boolean) {
+        layout = GridBagLayout()
+        val gridBagConstraints = GridBagConstraints()
+        val numberOfDayLabel = JLabel(numberOfDayString)
+        numberOfDayLabel.font = Font("Noto Sans", Font.PLAIN, 14)
+        if(currentDay)
+            numberOfDayLabel.foreground = MainWindow.highlightedAreaColor
         else if(currentMonth)
-            numberOfDay.foreground = Color.WHITE
+            numberOfDayLabel.foreground = Color.WHITE
         else
-            numberOfDay.foreground = MainWindow.nonCurrentDaysColor
-        add(numberOfDay)
+            numberOfDayLabel.foreground = MainWindow.nonCurrentDaysColor
+        setGridBagConstraint(gridBagConstraints, 0, 0, 1, 1)
+        add(numberOfDayLabel, gridBagConstraints)
     }
 }

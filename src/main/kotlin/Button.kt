@@ -1,4 +1,3 @@
-import MainWindow.Companion.standardColor
 import MainWindow.Companion.whiteColor
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -11,11 +10,23 @@ class Button (
 ) : JPanel() {
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
-        background = standardColor
+        background = MainWindow.panelColor
         g?.color = whiteColor
         g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
         isOpaque = true
-        setText()
+        if(text != "<" && text != ">")
+            setText()
+        else {
+            g?.color = whiteColor
+            if(text == "<") {
+                g?.drawLine(27, 7, 13, 20)
+                g?.drawLine(13, 20, 27, 33)
+            }
+            else {
+                g?.drawLine(13, 7, 27, 20)
+                g?.drawLine(27, 20, 13, 33)
+            }
+        }
     }
     override fun getPreferredSize(): Dimension {
         return Dimension(buttonWidth, buttonHeight)

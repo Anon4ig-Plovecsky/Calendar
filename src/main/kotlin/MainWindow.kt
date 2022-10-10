@@ -12,7 +12,9 @@ class MainWindow : JFrame() {
         val highlightedAreaColor = Color(133, 173, 72)
         val nonCurrentDaysColor = Color(104, 105, 106)
         const val windowWidth = 420
-        const val windowHeight = 350
+        const val windowHeight = 400
+        const val dayWidth = 60
+        const val dayHeight = 50
         fun setGridBagConstraint(gridBagConstraints: GridBagConstraints, gridX: Int, gridY: Int, gridHeight: Int, gridWidth: Int) : GridBagConstraints {
             gridBagConstraints.gridx = gridX
             gridBagConstraints.gridy = gridY
@@ -27,8 +29,9 @@ class MainWindow : JFrame() {
     private lateinit var buttonsPanel: ButtonsPanel
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
-        isVisible = true
+        minimumSize = Dimension(windowWidth, windowHeight)
         createLayout()
+        isVisible = true
         title = "Календарь"
         defaultCloseOperation = EXIT_ON_CLOSE
         contentPane.background = standardColor
@@ -42,22 +45,55 @@ class MainWindow : JFrame() {
         gridBagConstraints = GridBagConstraints()
         layout = layoutFrame
         setArrowButtonsPanel()
+        setDaysOfMonth()
         setCalendar()
+    }
+    private fun setDaysOfMonth() {
+        val daysOfMonthStrings = arrayOf("пн", "вт", "ср", "чт", "пт", "сб", "вс")
+        val daysOfMonthObjects = Array(7) { i ->
+            object : JPanel() {
+                override fun paintComponent(g: Graphics?) {
+                    super.paintComponent(g)
+                    background = standardColor
+                    isOpaque = true
+                    g?.color = standardColor
+                    g?.drawRect(0, 0, dayWidth - 1, dayHeight - 1)
+                    setText()
+                }
+                override fun getPreferredSize(): Dimension = Dimension(dayWidth, dayHeight)
+                fun setText() {
+                    layout = GridBagLayout()
+                    val dayOfWeek = JLabel(daysOfMonthStrings[i])
+                    dayOfWeek.foreground = nonCurrentDaysColor
+                    dayOfWeek.font = Font("Noto Sans", Font.PLAIN, 14)
+                    add(dayOfWeek)
+                }
+            }
+        }
+        for(column in 0 until 7) {
+            gridBagConstraints = setGridBagConstraint(gridBagConstraints,
+                column * 3, 3, 3, 3)
+            add(daysOfMonthObjects[column], gridBagConstraints)
+        }
     }
     private fun setCalendar() {
         val dateQualifier = DateQualifier()
         dateQualifier.setInfoAboutMonth()
-        days = Array(42) { i ->
-            Day(
-                dateQualifier.getInfoAboutMonth()[i][keyDay],
-                dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1,
-                dateQualifier.getInfoAboutMonth()[i][keyCurrentMonth] == 1
-            )
-        }
+        days = Array(42) { i -> Day(
+            dateQualifier.getInfoAboutMonth()[i][keyDay],
+            dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1,
+            dateQualifier.getInfoAboutMonth()[i][keyCurrentMonth] == 1
+        ) }
         for(row in 0 until 6)
             for (column in 0 until 7) {
-                gridBagConstraints = setGridBagConstraint(gridBagConstraints, column * 3, row * 3 + 3, 3, 2)
+                gridBagConstraints = setGridBagConstraint(gridBagConstraints,
+                    column * 3, row * 3 + 6, 3, 3)
                 add(days[row * 7 + column], gridBagConstraints)
+//                days[row * 7 + column].setDay(
+//                    dateQualifier.getInfoAboutMonth()[row * 7 + column][keyDay],
+//                    dateQualifier.getInfoAboutMonth()[row * 7 + column][keyCurrentDay] == 1,
+//                    dateQualifier.getInfoAboutMonth()[row * 7 + column][keyCurrentMonth] == 1
+//                )
             }
     }
     private fun setArrowButtonsPanel() {

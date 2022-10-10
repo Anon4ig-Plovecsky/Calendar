@@ -34,6 +34,7 @@ class DateQualifier constructor () {
     fun setInfoAboutMonth(): Array<MutableMap<String, Int>> {
         val maxDayCurrentMonth = todayDay.getActualMaximum(Calendar.DAY_OF_MONTH)
         dayOfWeek = todayDay.get(Calendar.DAY_OF_WEEK_IN_MONTH)
+        //---------------Days before current month--------------//
         if(dayOfWeek > 0) {
             val previousMonth = (12 + month - 1) % 12
             val previousYear = if (previousMonth == 11) year - 1 else year
@@ -43,9 +44,11 @@ class DateQualifier constructor () {
                 feelDayOfWeek(day, previousMonth, previousYear, false)
             setDate(1, month, year)
         }
+        //---------------------Current days---------------------//
         for(day in 1 .. maxDayCurrentMonth)
             feelDayOfWeek(day, month, year, true)
         dayOfWeek = todayDay.get(Calendar.DAY_OF_WEEK_IN_MONTH)
+        //---------------Days after current month---------------//
         if(dayOfWeek < 6 || index < 42) {
             val followingMonth = (month + 1) % 12
             val followingYear = if(month == 0) year + 1 else year
@@ -61,11 +64,11 @@ class DateQualifier constructor () {
     private fun feelDayOfWeek(day: Int, month: Int, year: Int, isCurrentMonth: Boolean) {
         setDate(day, month, year)
         if(isCurrentMonth)
-            infoDays[index][MainWindow.keyCurrentMonth] = 1
-        else infoDays[index][MainWindow.keyCurrentMonth] = 0
+            infoDays[index][MainWindow.keyCurrentMonth] = 1 // true
+        else infoDays[index][MainWindow.keyCurrentMonth] = 0 // false
         infoDays[index][MainWindow.keyDay] = day
         if(day == currentDay && month == currentMonth && year == currentYear)
-            infoDays[index++][MainWindow.keyCurrentDay] = 1
-        else infoDays[index++][MainWindow.keyCurrentDay] = 0
+            infoDays[index++][MainWindow.keyCurrentDay] = 1 //true
+        else infoDays[index++][MainWindow.keyCurrentDay] = 0 //false
     }
 }
