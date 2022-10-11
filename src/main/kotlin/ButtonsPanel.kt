@@ -5,11 +5,11 @@ import java.awt.Dimension
 import java.awt.Graphics
 
 class ButtonsPanel : JPanel() {
-    private lateinit var buttonDays: Button
-    private lateinit var buttonMonths: Button
-    private lateinit var buttonYears: Button
-    private lateinit var buttonPreviousMonth: Button
-    private lateinit var buttonFollowingMonth: Button
+    private lateinit var functionButtonDays: FunctionButton
+    private lateinit var functionButtonMonths: FunctionButton
+    private lateinit var functionButtonYears: FunctionButton
+    private lateinit var functionButtonPreviousMonth: FunctionButton
+    private lateinit var functionButtonFollowingMonth: FunctionButton
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         background = panelColor
@@ -19,22 +19,22 @@ class ButtonsPanel : JPanel() {
     fun setButtons() {
         isOpaque = true
         //-------------------------Days-----------------------------//
-        buttonDays = Button(90, 40, "Дни")
-        add(buttonDays)
-        buttonDays.setText()
+        functionButtonDays = FunctionButton(90, 40, "Дни")
+        add(functionButtonDays)
+        functionButtonDays.setText()
         //--------------------------Months---------------------------//
-        buttonMonths = Button(120, 40, "Месяцы")
-        add(buttonMonths)
-        buttonMonths.setText()
+        functionButtonMonths = FunctionButton(120, 40, "Месяцы")
+        add(functionButtonMonths)
+        functionButtonMonths.setText()
         //---------------------------Years---------------------------//
-        buttonYears = Button(90, 40, "Годы")
-        add(buttonYears)
-        buttonYears.setText()
+        functionButtonYears = FunctionButton(90, 40, "Годы")
+        add(functionButtonYears)
+        functionButtonYears.setText()
         //-----------------------Previous month----------------------//
-        buttonPreviousMonth = Button(40, 40, "<")
-        add(buttonPreviousMonth)
+        functionButtonPreviousMonth = FunctionButton(40, 40, "<")
+        add(functionButtonPreviousMonth)
         //-----------------------Following month---------------------//
-        buttonFollowingMonth = Button(40, 40, ">")
-        add(buttonFollowingMonth)
+        functionButtonFollowingMonth = FunctionButton(40, 40, ">")
+        add(functionButtonFollowingMonth)
     }
 }

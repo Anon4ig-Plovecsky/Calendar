@@ -1,49 +1,45 @@
-import MainWindow.Companion.whiteColor
-import javax.swing.JLabel
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import javax.swing.JPanel
-import java.awt.*
+import java.awt.Graphics
+import EnumMouseEvent.*
 
-class Button (
-    private val buttonWidth: Int,
-    private val buttonHeight: Int,
-    private val text: String
-) : JPanel() {
-    private var graphicsPanel: Graphics?
+abstract class Button : JPanel(), ButtonsMouseAdapter {
+    var mouseEvent: EnumMouseEvent = EXITED
     init {
-        graphicsPanel = graphics
+        callAddMouseListener()
+    }
+    private fun callAddMouseListener() {
+        addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                super.mousePressed(e)
+                mouseEvent = PRESSED
+                repaint()
+            }
+            override fun mouseReleased(e: MouseEvent?) {
+                super.mouseReleased(e)
+                mouseEvent = RELEASED
+                repaint()
+            }
+            override fun mouseEntered(e: MouseEvent?) {
+                super.mouseEntered(e)
+                mouseEvent = ENTERED
+                repaint()
+            }
+            override fun mouseExited(e: MouseEvent?) {
+                super.mouseExited(e)
+                mouseEvent = EXITED
+                repaint()
+            }
+        })
     }
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
-        graphicsPanel = g
-        background = MainWindow.panelColor
-        graphicsPanel?.color = whiteColor
-        graphicsPanel?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
-        isOpaque = true
-        if(text == "<" || text == ">")
-            setText()
-    }
-    override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
-    fun setText() {
-        graphicsPanel?.color = whiteColor
-        when(text) {
-            "<" -> {
-                graphicsPanel?.drawLine(26, 7, 13, 20)
-                graphicsPanel?.drawLine(13, 20, 26, 33)
-            }
-            ">" -> {
-                graphicsPanel?.drawLine(13, 7, 26, 20)
-                graphicsPanel?.drawLine(26, 20, 13, 33)
-            }
-            else -> {
-                val buttonText = JLabel(text)
-                buttonText.foreground = whiteColor
-                buttonText.font = Font("Noto Sans", Font.PLAIN, 14)
-                layout = GridBagLayout()
-                buttonText.alignmentX = CENTER_ALIGNMENT
-                buttonText.alignmentY = BOTTOM_ALIGNMENT
-                add(buttonText)
-                buttonText.isVisible = true
-            }
+        when(mouseEvent) {
+            EXITED -> exitedMouse(g)
+            ENTERED -> enteredMouse(g)
+            PRESSED -> pressedMouse(g)
+            RELEASED -> releasedMouse(g)
         }
     }
 }
