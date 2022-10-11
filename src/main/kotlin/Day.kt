@@ -8,65 +8,75 @@ import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import javax.swing.JPanel
 import javax.swing.JLabel
+import EnumMouseEvent.*
 import java.awt.*
 
 class Day(
-    private val currentDay: Boolean,
+    private var currentDay: Boolean,
 ) : JPanel() {
+    var mouseEvent: EnumMouseEvent = EXITED
+    val numberOfDayLabel = JLabel()
     init {
         addMouseListener(object : MouseAdapter() {
             override fun mouseEntered(e: MouseEvent?) {
                 super.mouseEntered(e)
-                exited = true
+                mouseEvent = ENTERED
                 repaint()
             }
             override fun mouseExited(e: MouseEvent?) {
                 super.mouseExited(e)
+                mouseEvent = EXITED
+                repaint()
             }
         })
+        add(numberOfDayLabel)
     }
-    private var exited: Boolean = false
-    private var draw: Graphics? = graphics
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
-        draw = g!!
-        if(exited)
-            enteredMouse()
-        else {
-            background = standardColor
-            isOpaque = true
-            setDay(currentDay)
+        isOpaque = true
+        when(mouseEvent) {
+            ENTERED -> enteredMouse(g)
+            EXITED -> setDay(g)
+            PRESSED -> {
+
+            }
+            RELEASED -> {
+
+            }
+
         }
     }
     override fun getPreferredSize(): Dimension = Dimension(dayWidth, dayHeight)
-    fun setDay(currentDay: Boolean) {
-
+    fun setDay(g: Graphics?) {
         if(currentDay) {
             background = selectedAreaColor
-            draw?.color = MainWindow.selectedOutlineColor
+            g?.color = MainWindow.selectedOutlineColor
         }
         else {
             background = standardColor
-            draw?.color = standardColor
+            g?.color = standardColor
         }
-        draw?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
-        draw?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
+        g?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
+        g?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
     }
-    fun setNumberOfDay(numberOfDayString: String, currentDay: Boolean, currentMonth: Boolean) {
+    fun setNumberOfDay(numberOfDayString: String, currentMonth: Boolean) {
         layout = GridBagLayout()
-        val numberOfDayLabel = JLabel(numberOfDayString)
+        numberOfDayLabel.text = numberOfDayString
         numberOfDayLabel.font = Font("Noto Sans", Font.PLAIN, 14)
         if(currentMonth)
             numberOfDayLabel.foreground = Color.WHITE
         else
             numberOfDayLabel.foreground = MainWindow.nonCurrentDaysColor
-        add(numberOfDayLabel)
     }
-    private fun enteredMouse() {
-        repaint()
-        background = enteredMouseAreaColor
-        draw?.color = enteredMouseOutlineColor
-        draw?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
-        draw?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
+    private fun enteredMouse(g: Graphics?) {
+        if(!currentDay) {
+            background = enteredMouseAreaColor
+            g?.color = enteredMouseOutlineColor
+            g?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
+            g?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
+        } else setDay(g)
+    }
+    private fun setCurrentDay(currentDay: Boolean) {
+        this.currentDay = currentDay
     }
 }

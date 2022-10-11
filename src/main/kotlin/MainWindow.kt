@@ -1,13 +1,14 @@
-import java.awt.*
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
 import javax.swing.*
+import java.util.*
+import java.awt.*
 
 class MainWindow : JFrame() {
     companion object {
+        //------------------------Keys--------------------------//
         @JvmStatic val keyDay = "NUMBER_OF_DAY"
         @JvmStatic val keyCurrentMonth = "CURRENT_MONTH"
         @JvmStatic val keyCurrentDay = "CURRENT_DAY"
+        //------------------------Colors------------------------//
         val standardColor = Color(39, 39, 53)
         val panelColor = Color(28, 28, 36)
         val whiteColor = Color(197, 189, 180)
@@ -16,17 +17,26 @@ class MainWindow : JFrame() {
         val enteredMouseAreaColor = Color(66, 70, 67)
         val enteredMouseOutlineColor = Color(81, 95, 69)
         val nonCurrentDaysColor = Color(104, 105, 106)
+        //-----------------------Dimensions---------------------//
         const val windowWidth = 420
-        const val windowHeight = 429
+        const val windowHeight = 460
         const val dayWidth = 60
         const val dayHeight = 50
     }
     private lateinit var days: Array<Day>
+    private lateinit var monthNames: Array<String>
+    //-----------------------Layouts------------------------//
     private lateinit var layoutFrame: BoxLayout
     private lateinit var gridLayout: GridLayout
+    //------------------------Panels------------------------//
     private lateinit var buttonsPanel: ButtonsPanel
     private lateinit var calendarPanel: JPanel
     private lateinit var daysOfWeekPanel: JPanel
+    private lateinit var monthPanel: MonthPanel
+    //---------------------Required time--------------------//
+    private var requireDay: Int = 0
+    private var requireMonth: Int = 0
+    private var requireYear: Int = 0
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
         minimumSize = Dimension(windowWidth, windowHeight)
@@ -43,11 +53,25 @@ class MainWindow : JFrame() {
     private fun createLayout() {
         layoutFrame = BoxLayout(contentPane, BoxLayout.Y_AXIS)
         layout = layoutFrame
-
-
+        setMonthPanel()
         setArrowButtonsPanel()
         setDaysOfMonth()
         setCalendar()
+    }
+    //------------------------------------Set Panels------------------------------------//
+    private fun setMonthPanel() {
+        monthNames = arrayOf("Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+            "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь")
+        monthPanel = MonthPanel()
+        requireMonth = Calendar.getInstance().get(Calendar.MONTH)
+        requireYear = Calendar.getInstance().get(Calendar.YEAR)
+        monthPanel.setMonth("${monthNames[requireMonth]} $requireYear")
+        add(monthPanel)
+    }
+    private fun setArrowButtonsPanel() {
+        buttonsPanel = ButtonsPanel()
+        add(buttonsPanel)
+        buttonsPanel.setButtons()
     }
     private fun setDaysOfMonth() {
         gridLayout = GridLayout(0, 7)
@@ -98,18 +122,10 @@ class MainWindow : JFrame() {
             calendarPanel.add(days[i])
             days[i].setNumberOfDay(
                 dateQualifier.getInfoAboutMonth()[i][keyDay].toString(),
-                dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1,
                 dateQualifier.getInfoAboutMonth()[i][keyCurrentMonth] == 1
             )
-            days[i].addMouseListener(object : MouseAdapter() {
-
-            })
         }
         add(calendarPanel)
     }
-    private fun setArrowButtonsPanel() {
-        buttonsPanel = ButtonsPanel()
-        add(buttonsPanel)
-        buttonsPanel.setButtons()
-    }
+    //----------------------------------------------------------------------------
 }

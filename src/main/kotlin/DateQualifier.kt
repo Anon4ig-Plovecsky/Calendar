@@ -3,14 +3,18 @@ import java.util.Calendar
 class DateQualifier constructor () {
     private val infoDays: Array<MutableMap<String, Int>> = Array(42) { mutableMapOf() }
     private val todayDay: Calendar = Calendar.getInstance()
+    //-------------------Current day---------------------//
     private var currentDay: Int
     private var currentMonth: Int
     private var currentYear: Int
+    //------------------Selected day---------------------//
     private var day: Int
     private var month: Int
     private var year: Int
     private var dayOfWeek = 1
+    //-----------------------------------------------------
     private var index = 0
+    //---------------Second constructor----------------//
     constructor(month: String, year: String) : this() {
         day = 1
         this.month = month.toInt() - 1
