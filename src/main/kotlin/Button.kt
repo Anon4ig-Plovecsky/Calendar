@@ -8,36 +8,42 @@ class Button (
     private val buttonHeight: Int,
     private val text: String
 ) : JPanel() {
+    private var graphicsPanel: Graphics?
+    init {
+        graphicsPanel = graphics
+    }
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
+        graphicsPanel = g
         background = MainWindow.panelColor
-        g?.color = whiteColor
-        g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
+        graphicsPanel?.color = whiteColor
+        graphicsPanel?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
         isOpaque = true
-        if(text != "<" && text != ">")
+        if(text == "<" || text == ">")
             setText()
-        else {
-            g?.color = whiteColor
-            if(text == "<") {
-                g?.drawLine(27, 7, 13, 20)
-                g?.drawLine(13, 20, 27, 33)
+    }
+    override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
+    fun setText() {
+        graphicsPanel?.color = whiteColor
+        when(text) {
+            "<" -> {
+                graphicsPanel?.drawLine(26, 7, 13, 20)
+                graphicsPanel?.drawLine(13, 20, 26, 33)
             }
-            else {
-                g?.drawLine(13, 7, 27, 20)
-                g?.drawLine(27, 20, 13, 33)
+            ">" -> {
+                graphicsPanel?.drawLine(13, 7, 26, 20)
+                graphicsPanel?.drawLine(26, 20, 13, 33)
+            }
+            else -> {
+                val buttonText = JLabel(text)
+                buttonText.foreground = whiteColor
+                buttonText.font = Font("Noto Sans", Font.PLAIN, 14)
+                layout = GridBagLayout()
+                buttonText.alignmentX = CENTER_ALIGNMENT
+                buttonText.alignmentY = BOTTOM_ALIGNMENT
+                add(buttonText)
+                buttonText.isVisible = true
             }
         }
-    }
-    override fun getPreferredSize(): Dimension {
-        return Dimension(buttonWidth, buttonHeight)
-    }
-    private fun setText() {
-        val buttonText = JLabel(text)
-        buttonText.foreground = whiteColor
-        buttonText.font = Font("Noto Sans", Font.PLAIN, 14)
-        layout = GridBagLayout()
-        buttonText.alignmentX = CENTER_ALIGNMENT
-        buttonText.alignmentY = BOTTOM_ALIGNMENT
-        add(buttonText)
     }
 }

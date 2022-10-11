@@ -1,8 +1,5 @@
-import MainWindow.Companion.setGridBagConstraint
 import MainWindow.Companion.windowWidth
 import MainWindow.Companion.panelColor
-import java.awt.GridBagConstraints
-import java.awt.GridBagLayout
 import javax.swing.JPanel
 import java.awt.Dimension
 import java.awt.Graphics
@@ -12,33 +9,32 @@ class ButtonsPanel : JPanel() {
     private lateinit var buttonMonths: Button
     private lateinit var buttonYears: Button
     private lateinit var buttonPreviousMonth: Button
-    private lateinit var gridBagConstraints: GridBagConstraints
+    private lateinit var buttonFollowingMonth: Button
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         background = panelColor
         g?.drawRect(-1, -1, windowWidth + 1, 50)
     }
-    override fun getPreferredSize(): Dimension {
-        return Dimension(windowWidth, 50)
-    }
+    override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
     fun setButtons() {
-        layout = GridBagLayout()
         isOpaque = true
-        gridBagConstraints = GridBagConstraints()
         //-------------------------Days-----------------------------//
         buttonDays = Button(90, 40, "Дни")
-        gridBagConstraints = setGridBagConstraint(gridBagConstraints, 0, 0, 1, 4)
-        add(buttonDays, gridBagConstraints)
+        add(buttonDays)
+        buttonDays.setText()
         //--------------------------Months---------------------------//
         buttonMonths = Button(120, 40, "Месяцы")
-        gridBagConstraints = setGridBagConstraint(gridBagConstraints, 5, 0, 1, 5)
-        add(buttonMonths, gridBagConstraints)
+        add(buttonMonths)
+        buttonMonths.setText()
         //---------------------------Years---------------------------//
         buttonYears = Button(90, 40, "Годы")
-        gridBagConstraints = setGridBagConstraint(gridBagConstraints, 10, 0, 1, 4)
-        add(buttonYears, gridBagConstraints)
+        add(buttonYears)
+        buttonYears.setText()
         //-----------------------Previous month----------------------//
-//        buttonPreviousMonth = Button(40, 40, "<")
-//        gridBagConstraints = setGridBagConstraint(gridBagConstraints, )
+        buttonPreviousMonth = Button(40, 40, "<")
+        add(buttonPreviousMonth)
+        //-----------------------Following month---------------------//
+        buttonFollowingMonth = Button(40, 40, ">")
+        add(buttonFollowingMonth)
     }
 }
