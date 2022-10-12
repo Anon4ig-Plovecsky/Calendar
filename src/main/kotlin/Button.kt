@@ -5,7 +5,8 @@ import java.awt.Graphics
 import EnumMouseEvent.*
 
 abstract class Button : JPanel(), ButtonsMouseAdapter {
-    var mouseEvent: EnumMouseEvent = EXITED
+    private var mouseEvent: EnumMouseEvent = EXITED
+    private var pressedButton = false
     init {
         callAddMouseListener()
     }
@@ -41,5 +42,17 @@ abstract class Button : JPanel(), ButtonsMouseAdapter {
             PRESSED -> pressedMouse(g)
             RELEASED -> releasedMouse(g)
         }
+    }
+    override fun exitedMouse(g: Graphics?) {
+        pressedButton = false
+    }
+    override fun releasedMouse(g: Graphics?) {
+        if(pressedButton)
+            actionButton(g)
+        pressedButton = false
+    }
+
+    override fun pressedMouse(g: Graphics?) {
+        pressedButton = true
     }
 }

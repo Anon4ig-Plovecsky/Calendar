@@ -1,65 +1,54 @@
-import MainWindow.Companion.whiteColor
-import javax.swing.JLabel
-import java.awt.*
+import MainWindow.Companion.buttonHeight
+import MainWindow.Companion.buttonWidth
+import java.awt.Dimension
+import java.awt.Graphics
 
-class FunctionButton (
-    private val buttonWidth: Int,
-    private val buttonHeight: Int,
+class FunctionButton(
     private val text: String
 ) : Button() {
-    private var graph: Graphics? = graphics
-    private val buttonText = JLabel()
+    private var isAction = false
+    //----------------------Implemented methods---------------------//
     override fun enteredMouse(g: Graphics?) {
-        println("ентеред")
+        g?.color = MainWindow.pressedMouseOutlineColor
     }
     override fun exitedMouse(g: Graphics?) {
-        println("эксайтед")
-        background = MainWindow.panelColor
-        g?.color = whiteColor
-        g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
-    }
-    override fun pressedMouse(g: Graphics?) {
-        println("прессед")
+        super.exitedMouse(g)
+        g?.color = MainWindow.whiteColor
     }
     override fun releasedMouse(g: Graphics?) {
-        println("релизд")
+        super.releasedMouse(g)
+        if(!isAction)
+            exitedMouse(g)
+        isAction = false
     }
-    init {
-        add(buttonText)
+    override fun pressedMouse(g: Graphics?) {
+        super.pressedMouse(g)
+        g?.color = MainWindow.enteredMouseOutlineColor
     }
+    override fun actionButton(g: Graphics?) {
+        isAction = true
+        enteredMouse(g)
+    }
+    //-----------------------Override methods-----------------------//
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
-        isOpaque = true
-        graph = g
-        if(text == "<" || text == ">")
-            setText()
+        background = MainWindow.panelColor
+        g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
+        setSymbol(g)
     }
     override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
-    fun setText() {
-        graph?.color = whiteColor
+    //----------------------------------------------------------------
+    private fun setSymbol(g: Graphics?) {
+        g?.color = MainWindow.whiteColor
         when(text) {
             "<" -> {
-                graph?.drawLine(26, 7, 13, 20)
-                graph?.drawLine(13, 20, 26, 33)
+                g?.drawLine(26, 7, 13, 20)
+                g?.drawLine(13, 20, 26, 33)
             }
             ">" -> {
-                graph?.drawLine(13, 7, 26, 20)
-                graph?.drawLine(26, 20, 13, 33)
-            }
-            else -> {
-                buttonText.text = text
-                buttonText.foreground = whiteColor
-                buttonText.font = Font("Noto Sans", Font.PLAIN, 14)
-                layout = GridBagLayout()
-                buttonText.alignmentX = CENTER_ALIGNMENT
-                buttonText.alignmentY = BOTTOM_ALIGNMENT
-                buttonText.isVisible = true
+                g?.drawLine(13, 7, 26, 20)
+                g?.drawLine(26, 20, 13, 33)
             }
         }
-    }
-    private fun mouseExitedButton(g: Graphics?) {
-        background = MainWindow.panelColor
-        g?.color = whiteColor
-        g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
     }
 }

@@ -12,16 +12,20 @@ class MainWindow : JFrame() {
         val standardColor = Color(39, 39, 53)
         val panelColor = Color(28, 28, 36)
         val whiteColor = Color(197, 189, 180)
-        val selectedOutlineColor = Color(133, 173, 72)
-        val selectedAreaColor = Color(80, 94, 67)
+        val currentDayOutlineColor = Color(133, 173, 72)
+        val currentDayAreaColor = Color(80, 94, 67)
         val enteredMouseAreaColor = Color(66, 70, 67)
         val enteredMouseOutlineColor = Color(81, 95, 69)
+        val pressedMouseAreaColor = Color(72, 82, 68)
+        val pressedMouseOutlineColor = Color(103, 129, 71)
         val nonCurrentDaysColor = Color(104, 105, 106)
         //-----------------------Dimensions---------------------//
         const val windowWidth = 420
         const val windowHeight = 460
         const val dayWidth = 60
         const val dayHeight = 50
+        const val buttonWidth = 40
+        const val buttonHeight = 40
     }
     private lateinit var days: Array<Day>
     private lateinit var monthNames: Array<String>
@@ -29,14 +33,21 @@ class MainWindow : JFrame() {
     private lateinit var layoutFrame: BoxLayout
     private lateinit var gridLayout: GridLayout
     //------------------------Panels------------------------//
-    private lateinit var buttonsPanel: ButtonsPanel
+    private lateinit var buttonsPanel: JPanel
+    private lateinit var totalCalendarPanel: JPanel
     private lateinit var calendarPanel: JPanel
     private lateinit var daysOfWeekPanel: JPanel
     private lateinit var monthPanel: MonthPanel
-    //---------------------Required time--------------------//
+    //--------------------Required time---------------------//
     private var requireDay: Int = 0
     private var requireMonth: Int = 0
     private var requireYear: Int = 0
+    //-----------------------Buttons------------------------//
+    private lateinit var buttonDays: NavigationButton
+    private lateinit var buttonMonths: NavigationButton
+    private lateinit var buttonYears: NavigationButton
+    private lateinit var buttonPreviousMonth: FunctionButton
+    private lateinit var buttonFollowingMonth: FunctionButton
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
         minimumSize = Dimension(windowWidth, windowHeight)
@@ -55,8 +66,7 @@ class MainWindow : JFrame() {
         layout = layoutFrame
         setMonthPanel()
         setArrowButtonsPanel()
-        setDaysOfMonth()
-        setCalendar()
+        setTotalCalendarPanel()
     }
     //------------------------------------Set Panels------------------------------------//
     private fun setMonthPanel() {
@@ -69,9 +79,42 @@ class MainWindow : JFrame() {
         add(monthPanel)
     }
     private fun setArrowButtonsPanel() {
-        buttonsPanel = ButtonsPanel()
+        buttonsPanel = object : JPanel() {
+            override fun paintComponent(g: Graphics?) {
+                super.paintComponent(g)
+                background = panelColor
+                g?.drawRect(-1, -1, windowWidth + 1, 50)
+            }
+
+            override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
+        }
+        //---------------------------Days----------------------------//
+        buttonDays = NavigationButton(90, 40, "Дни")
+        buttonsPanel.add(buttonDays)
+        buttonDays.setText()
+        //--------------------------Months---------------------------//
+        buttonMonths = NavigationButton(120, 40, "Месяцы")
+        buttonsPanel.add(buttonMonths)
+        buttonMonths.setText()
+        //---------------------------Years---------------------------//
+        buttonYears = NavigationButton(90, 40, "Годы")
+        buttonsPanel.add(buttonYears)
+        buttonYears.setText()
+        //-----------------------Previous month----------------------//
+        buttonPreviousMonth = FunctionButton("<")
+        buttonsPanel.add(buttonPreviousMonth)
+        //-----------------------Following month---------------------//
+        buttonFollowingMonth = FunctionButton(">")
+        buttonsPanel.add(buttonFollowingMonth)
         add(buttonsPanel)
-        buttonsPanel.setButtons()
+    }
+    private fun setTotalCalendarPanel() {
+        totalCalendarPanel = JPanel()
+        totalCalendarPanel.layout = BoxLayout(totalCalendarPanel, BoxLayout.Y_AXIS)
+        totalCalendarPanel.size = Dimension(windowWidth, 350)
+        setDaysOfMonth()
+        setCalendar()
+        add(totalCalendarPanel)
     }
     private fun setDaysOfMonth() {
         gridLayout = GridLayout(0, 7)
@@ -106,7 +149,7 @@ class MainWindow : JFrame() {
             daysOfWeekPanel.add(daysOfMonthObjects[column])
             daysOfMonthObjects[column].setText()
         }
-        add(daysOfWeekPanel)
+        totalCalendarPanel.add(daysOfWeekPanel)
     }
     private fun setCalendar() {
         calendarPanel = object : JPanel() {
@@ -117,7 +160,12 @@ class MainWindow : JFrame() {
         }
         val dateQualifier = DateQualifier()
         dateQualifier.setInfoAboutMonth()
-        days = Array(42) { i -> Day(dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1) }
+        days = Array(42) { i -> object : Day(dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1) {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+
+            }
+        } }
         for(i in days.indices) {
             calendarPanel.add(days[i])
             days[i].setNumberOfDay(
@@ -125,7 +173,7 @@ class MainWindow : JFrame() {
                 dateQualifier.getInfoAboutMonth()[i][keyCurrentMonth] == 1
             )
         }
-        add(calendarPanel)
+        totalCalendarPanel.add(calendarPanel)
     }
     //----------------------------------------------------------------------------
 }

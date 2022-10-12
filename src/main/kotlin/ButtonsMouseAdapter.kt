@@ -5,4 +5,5 @@ interface ButtonsMouseAdapter {
     fun exitedMouse(g: Graphics?)
     fun pressedMouse(g: Graphics?)
     fun releasedMouse(g: Graphics?)
+    fun actionButton(g: Graphics?)
 }
