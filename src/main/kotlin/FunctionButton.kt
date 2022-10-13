@@ -3,7 +3,7 @@ import MainWindow.Companion.buttonWidth
 import java.awt.Dimension
 import java.awt.Graphics
 
-class FunctionButton(
+open class FunctionButton(
     private val text: String
 ) : Button() {
     private var isAction = false

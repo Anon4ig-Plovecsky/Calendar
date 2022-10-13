@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Merging Day and Function Button into one class family">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/NavigationButton.kt" afterDir="false" />
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Buttons was are divided into three types">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Button.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Button.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ButtonsMouseAdapter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/ButtonsMouseAdapter.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/ButtonsPanel.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DateQualifier.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DateQualifier.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Day.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Day.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/FunctionButton.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/FunctionButton.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +107,9 @@
       <workItem from="1665420533545" duration="5464000" />
       <workItem from="1665426705580" duration="596000" />
       <workItem from="1665467684432" duration="23645000" />
-      <workItem from="1665562040745" duration="17715000" />
+      <workItem from="1665562040745" duration="24450000" />
+      <workItem from="1665651944499" duration="4611000" />
+      <workItem from="1665669378885" duration="2632000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -180,7 +181,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665511105245</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Buttons was are divided into three types">
+      <created>1665588885319</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1665588885319</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -208,6 +216,8 @@
     <MESSAGE value="Added mouse listener" />
     <MESSAGE value="Initially created window (non-functional)" />
     <MESSAGE value="Merging Day and Function Button into one class family" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merging Day and Function Button into one class family" />
+    <MESSAGE value="Buttons are divided into three types" />
+    <MESSAGE value="Buttons was are divided into three types" />
+    <option name="LAST_COMMIT_MESSAGE" value="Buttons was are divided into three types" />
   </component>
 </project>

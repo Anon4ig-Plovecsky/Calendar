@@ -19,7 +19,7 @@ class MainWindow : JFrame() {
         val pressedMouseAreaColor = Color(72, 82, 68)
         val pressedMouseOutlineColor = Color(103, 129, 71)
         val nonCurrentDaysColor = Color(104, 105, 106)
-        //-----------------------Dimensions---------------------//
+        //----------------------Dimensions----------------------//
         const val windowWidth = 420
         const val windowHeight = 460
         const val dayWidth = 60
@@ -38,10 +38,13 @@ class MainWindow : JFrame() {
     private lateinit var calendarPanel: JPanel
     private lateinit var daysOfWeekPanel: JPanel
     private lateinit var monthPanel: MonthPanel
-    //--------------------Required time---------------------//
-    private var requireDay: Int = 0
+    //--------------------Required date---------------------//
     private var requireMonth: Int = 0
     private var requireYear: Int = 0
+    //--------------------Selected date---------------------//
+    private var selectedDay: Int = 0
+    private var selectedMonth: Int = 0
+    private var selectedYear: Int = 0
     //-----------------------Buttons------------------------//
     private lateinit var buttonDays: NavigationButton
     private lateinit var buttonMonths: NavigationButton
@@ -64,6 +67,7 @@ class MainWindow : JFrame() {
     private fun createLayout() {
         layoutFrame = BoxLayout(contentPane, BoxLayout.Y_AXIS)
         layout = layoutFrame
+        background = standardColor
         setMonthPanel()
         setArrowButtonsPanel()
         setTotalCalendarPanel()
@@ -83,13 +87,13 @@ class MainWindow : JFrame() {
             override fun paintComponent(g: Graphics?) {
                 super.paintComponent(g)
                 background = panelColor
-                g?.drawRect(-1, -1, windowWidth + 1, 50)
             }
 
+            override fun getMinimumSize(): Dimension = Dimension(windowWidth, 50)
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
         }
         //---------------------------Days----------------------------//
-        buttonDays = NavigationButton(90, 40, "Дни")
+        buttonDays = NavigationButton(90, 40, "Дни", true)
         buttonsPanel.add(buttonDays)
         buttonDays.setText()
         //--------------------------Months---------------------------//
@@ -101,10 +105,24 @@ class MainWindow : JFrame() {
         buttonsPanel.add(buttonYears)
         buttonYears.setText()
         //-----------------------Previous month----------------------//
-        buttonPreviousMonth = FunctionButton("<")
+        buttonPreviousMonth = object : FunctionButton("<") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                requireMonth = (12 + requireMonth - 1) % 12
+                requireYear = if (requireMonth == 11) requireYear - 1 else requireYear
+                changeCalendarDays(requireMonth, requireYear)
+            }
+        }
         buttonsPanel.add(buttonPreviousMonth)
-        //-----------------------Following month---------------------//
-        buttonFollowingMonth = FunctionButton(">")
+        //----------------------Following month----------------------//
+        buttonFollowingMonth = object : FunctionButton(">") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                requireMonth = (requireMonth + 1) % 12
+                requireYear = if(requireMonth == 0) requireYear + 1 else requireYear
+                changeCalendarDays(requireMonth, requireYear)
+            }
+        }
         buttonsPanel.add(buttonFollowingMonth)
         add(buttonsPanel)
     }
@@ -136,6 +154,7 @@ class MainWindow : JFrame() {
                     g?.drawRect(0, 0, dayWidth - 1, dayHeight - 1)
                 }
                 override fun getPreferredSize(): Dimension = Dimension(dayWidth, dayHeight)
+                override fun getMinimumSize(): Dimension = Dimension(dayWidth, dayHeight)
                 fun setText() {
                     layout = GridBagLayout()
                     val dayOfWeek = JLabel(daysOfMonthStrings[i])
@@ -157,13 +176,31 @@ class MainWindow : JFrame() {
                 layout = GridLayout(6, 7)
             }
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, dayHeight * 6)
+            override fun getMinimumSize(): Dimension = Dimension(windowWidth, dayHeight * 6)
         }
         val dateQualifier = DateQualifier()
         dateQualifier.setInfoAboutMonth()
         days = Array(42) { i -> object : Day(dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1) {
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
-
+                selectedDay = getNumberOfDay().text.toInt()
+                if(i < 7 && selectedDay > 20) {
+                    selectedMonth = (12 + requireMonth - 1) % 12
+                    selectedYear = if(selectedMonth == 11) requireYear - 1 else requireYear
+                }
+                else if(i > 27 && selectedDay < 15) {
+                    selectedMonth = (requireMonth + 1) % 12
+                    selectedYear = if(selectedMonth == 0) requireYear + 1 else requireYear
+                }
+                else {
+                    selectedMonth = requireMonth
+                    selectedYear = requireYear
+                }
+                for(j in days.indices)
+                    if(j != i) {
+                        days[j].pressedDay = false
+                        days[j].repaint()
+                    }
             }
         } }
         for(i in days.indices) {
@@ -176,4 +213,19 @@ class MainWindow : JFrame() {
         totalCalendarPanel.add(calendarPanel)
     }
     //----------------------------------------------------------------------------
+    private fun changeCalendarDays(month: Int, year: Int) {
+        val dateQualifier = DateQualifier(month, year)
+        dateQualifier.setInfoAboutMonth()
+        for(i in days.indices) {
+            days[i].setNumberOfDay(
+                dateQualifier.getInfoAboutMonth()[i][keyDay].toString(),
+                dateQualifier.getInfoAboutMonth()[i][keyCurrentMonth] == 1
+            )
+            days[i].pressedDay = (selectedDay == dateQualifier.getCalendarArray()[i][Calendar.DAY_OF_MONTH]
+                    && selectedMonth == dateQualifier.getCalendarArray()[i][Calendar.MONTH]
+                    && selectedYear == dateQualifier.getCalendarArray()[i][Calendar.YEAR])
+            days[i].setCurrentDay(dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1)
+        }
+        monthPanel.setMonth("${monthNames[requireMonth]} $requireYear")
+    }
 }

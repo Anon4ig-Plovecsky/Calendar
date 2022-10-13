@@ -67,8 +67,10 @@ open class Day(
             numberOfDayLabel.foreground = Color.WHITE
         else
             numberOfDayLabel.foreground = MainWindow.nonCurrentDaysColor
+        repaint()
     }
-    private fun setCurrentDay(currentDay: Boolean) {
+    fun getNumberOfDay(): JLabel = numberOfDayLabel
+    fun setCurrentDay(currentDay: Boolean) {
         this.currentDay = currentDay
     }
 }

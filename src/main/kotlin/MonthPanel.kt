@@ -5,6 +5,7 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.Dimension
 import java.awt.Font
+import java.awt.Graphics
 
 class MonthPanel : JPanel() {
     private val month = JLabel()
@@ -12,7 +13,12 @@ class MonthPanel : JPanel() {
         background = panelColor
         add(month)
     }
+
+    override fun paintComponent(g: Graphics?) {
+        super.paintComponent(g)
+    }
     override fun getPreferredSize(): Dimension = Dimension(windowWidth, 30)
+    override fun getMinimumSize(): Dimension = Dimension(windowWidth, 30)
     fun setMonth(nameMonth: String) {
         month.text = nameMonth
         month.font = Font("Noto Sans", Font.PLAIN, 16)

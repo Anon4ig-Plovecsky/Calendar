@@ -51,7 +51,6 @@ abstract class Button : JPanel(), ButtonsMouseAdapter {
             actionButton(g)
         pressedButton = false
     }
-
     override fun pressedMouse(g: Graphics?) {
         pressedButton = true
     }
