@@ -21,17 +21,20 @@ class MainWindow : JFrame() {
         val nonCurrentDaysColor = Color(104, 105, 106)
         //----------------------Dimensions----------------------//
         const val windowWidth = 420
-        const val windowHeight = 460
+        const val windowHeight = 710
         const val dayWidth = 60
         const val dayHeight = 50
         const val buttonWidth = 40
         const val buttonHeight = 40
+        const val todoListWidth = 420
+        const val todoListHeight = 250
     }
     private lateinit var days: Array<Day>
     private lateinit var monthNames: Array<String>
     //-----------------------Layouts------------------------//
     private lateinit var layoutFrame: BoxLayout
     private lateinit var gridLayout: GridLayout
+    private lateinit var todoList: TodoList
     //------------------------Panels------------------------//
     private lateinit var buttonsPanel: JPanel
     private lateinit var totalCalendarPanel: JPanel
@@ -71,6 +74,7 @@ class MainWindow : JFrame() {
         setMonthPanel()
         setArrowButtonsPanel()
         setTotalCalendarPanel()
+        setTodoList()
     }
     //------------------------------------Set Panels------------------------------------//
     private fun setMonthPanel() {
@@ -88,7 +92,6 @@ class MainWindow : JFrame() {
                 super.paintComponent(g)
                 background = panelColor
             }
-
             override fun getMinimumSize(): Dimension = Dimension(windowWidth, 50)
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
         }
@@ -211,6 +214,10 @@ class MainWindow : JFrame() {
             )
         }
         totalCalendarPanel.add(calendarPanel)
+    }
+    private fun setTodoList() {
+        todoList = TodoList()
+        add(todoList)
     }
     //----------------------------------------------------------------------------
     private fun changeCalendarDays(month: Int, year: Int) {

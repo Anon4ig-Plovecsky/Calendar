@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Buttons was are divided into three types">
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Added navigation by month">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Button.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Button.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/DateQualifier.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/DateQualifier.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Day.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Day.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/FunctionButton.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/FunctionButton.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +27,17 @@
         </task>
         <projects_view>
           <tree_state>
-            <expand />
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Calendar" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Calendar" type="f1a62948:ProjectNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+            </expand>
             <select />
           </tree_state>
         </projects_view>
@@ -77,6 +83,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Calendar" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Calendar" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
@@ -109,7 +128,10 @@
       <workItem from="1665467684432" duration="23645000" />
       <workItem from="1665562040745" duration="24450000" />
       <workItem from="1665651944499" duration="4611000" />
-      <workItem from="1665669378885" duration="2632000" />
+      <workItem from="1665669378885" duration="6989000" />
+      <workItem from="1665682846647" duration="1550000" />
+      <workItem from="1665744956558" duration="8860000" />
+      <workItem from="1665759854439" duration="8063000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -188,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665588885319</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Added navigation by month">
+      <created>1665676499190</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1665676499190</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,6 +247,7 @@
     <MESSAGE value="Merging Day and Function Button into one class family" />
     <MESSAGE value="Buttons are divided into three types" />
     <MESSAGE value="Buttons was are divided into three types" />
-    <option name="LAST_COMMIT_MESSAGE" value="Buttons was are divided into three types" />
+    <MESSAGE value="Added navigation by month" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added navigation by month" />
   </component>
 </project>
