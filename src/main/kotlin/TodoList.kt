@@ -1,20 +1,49 @@
 import javax.swing.plaf.basic.BasicScrollBarUI
-import java.awt.*
-import javax.swing.*
 import javax.swing.border.LineBorder
+import javax.swing.*
+import java.awt.*
+import java.time.LocalDateTime
 
-class TodoList : JPanel() {
-    private lateinit var jScrollBar: JScrollBar
+class TodoList(
+    private var taskList: MutableSet<Map<String, String>>
+) : JPanel() {
+    private lateinit var addButton: FunctionButton
     private lateinit var jScrollPane: JScrollPane
+    private lateinit var jScrollBar: JScrollBar
+    private lateinit var finalJPanel: JPanel
+    private var jScrollPanel: JPanel? = null
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
         background = MainWindow.panelColor
+        setScrollBar()
+        setAddButton()
+        setJScrollPane()
+        fillScrollPane(HashSet(taskList))
     }
     //-------------------------Override methods-------------------------//
     override fun getPreferredSize(): Dimension = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
     override fun getMinimumSize(): Dimension = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
     //--------------------------------------------------------------------
-    private fun setJScrollPane(jPanel: JPanel) {
+    private fun setJScrollPane() {
+        //--------------------------------JScrollPane configuration--------------------------------//
+        jScrollPane = JScrollPane()
+        jScrollPane.verticalScrollBar = jScrollBar
+        jScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+        jScrollPane.horizontalScrollBarPolicy = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+        jScrollPane.minimumSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
+        jScrollPane.preferredSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
+        jScrollPane.background = MainWindow.panelColor
+        jScrollPane.foreground = MainWindow.panelColor
+        jScrollPane.verticalScrollBar.unitIncrement = 10
+        jScrollPane.border = object : LineBorder(MainWindow.panelColor) {
+            override fun paintBorder(c: Component?, g: Graphics?, x: Int, y: Int, width: Int, height: Int) {
+                super.lineColor = MainWindow.panelColor
+                super.paintBorder(c, g, x, y, width, height)
+            }
+        }
+        add(jScrollPane)
+    }
+    private fun setScrollBar() {
         //----------------------------Create scroll bar for JScrollPane----------------------------//
         jScrollBar = object : JScrollBar() {
             init {
@@ -56,11 +85,11 @@ class TodoList : JPanel() {
                         var width = rectangle.width
                         var height = rectangle.height
                         if(scrollbar.orientation == VERTICAL) {
-                            y += 8
-                            height -= 16
+                            y += 4
+                            height -= 8
                         } else {
-                            x += 8
-                            width -= 16
+                            x += 4
+                            width -= 8
                         }
                         graphics2D.color = scrollbar.foreground
                         graphics2D.fillRoundRect(x, y, width, height, 10, 10)
@@ -78,7 +107,6 @@ class TodoList : JPanel() {
                         init {
                             border = BorderFactory.createEmptyBorder()
                         }
-
                         override fun paint(g: Graphics?) {  }
                     }
                 })
@@ -87,21 +115,54 @@ class TodoList : JPanel() {
                 background = MainWindow.panelColor
             }
         }
-        //--------------------------------JScrollPane configuration--------------------------------//
-        jScrollPane = JScrollPane(jPanel)
-        jScrollPane.verticalScrollBar = jScrollBar
-        jScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
-        jScrollPane.horizontalScrollBarPolicy = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        jScrollPane.minimumSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
-        jScrollPane.preferredSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
-        jScrollPane.background = MainWindow.panelColor
-        jScrollPane.foreground = MainWindow.panelColor
-        jScrollPane.border = object : LineBorder(MainWindow.panelColor) {
-            override fun paintBorder(c: Component?, g: Graphics?, x: Int, y: Int, width: Int, height: Int) {
-                super.lineColor = MainWindow.panelColor
-                super.paintBorder(c, g, x, y, width, height)
+    }
+    //------------------------Filling JScrollPane-----------------------//
+    private fun fillScrollPane(taskList: MutableSet<Map<String, String>>) {
+        val jScrollPanelHeight = MainWindow.taskHeight * (taskList.size + 1) + taskList.size
+        if(jScrollPanel != null)
+            jScrollPane.viewport.remove(jScrollPanel)
+        jScrollPanel = object : JPanel() {
+            init {
+                layout = BoxLayout(this, BoxLayout.Y_AXIS)
+                background = MainWindow.panelColor
+            }
+            override fun getPreferredSize(): Dimension = Dimension(MainWindow.taskWidth, jScrollPanelHeight)
+            override fun getMinimumSize(): Dimension = Dimension(MainWindow.taskWidth, jScrollPanelHeight)
+        }
+        var taskArray: Array<Task> = emptyArray()
+        for(task in taskList) {
+            taskArray += Task(
+                task[MainWindow.keyTaskName]!!,
+                task[MainWindow.keyIsDone]!! == "true"
+            )
+        }
+        for(task in taskArray)
+            jScrollPanel?.add(task)
+        jScrollPanel?.add(finalJPanel)
+        jScrollPane.size = if(jScrollPanelHeight + 5 > MainWindow.todoListHeight)
+            Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
+        else Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+        jScrollPane.viewport.add(jScrollPanel)
+    }
+    private fun setAddButton() {
+        finalJPanel = object : JPanel() {
+            init {
+                background = MainWindow.panelColor
+            }
+            override fun getPreferredSize(): Dimension = Dimension(MainWindow.taskWidth, MainWindow.taskHeight)
+            override fun getMinimumSize(): Dimension = Dimension(MainWindow.taskWidth, MainWindow.taskHeight)
+        }
+        addButton = object : FunctionButton("+") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                val newTask = HashMap<String, String>()
+                newTask[MainWindow.keyTaskName] = LocalDateTime.now().toString()
+                newTask[MainWindow.keyIsDone] = "false"
+                taskList.add(newTask)
+                fillScrollPane(HashSet(taskList))
             }
         }
-        add(jScrollPane)
+        finalJPanel.add(addButton)
     }
+    //--------------------------------------------------------------------
 }

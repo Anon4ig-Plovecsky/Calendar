@@ -37,6 +37,7 @@ open class FunctionButton(
         setSymbol(g)
     }
     override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
+    override fun getMinimumSize(): Dimension = Dimension(buttonWidth, buttonHeight)
     //----------------------------------------------------------------
     private fun setSymbol(g: Graphics?) {
         g?.color = MainWindow.whiteColor
@@ -48,6 +49,17 @@ open class FunctionButton(
             ">" -> {
                 g?.drawLine(13, 7, 26, 20)
                 g?.drawLine(26, 20, 13, 33)
+            }
+            "-" -> {
+                g?.drawLine(13, 20, 26, 20)
+            }
+            "done" -> {
+                g?.drawLine(10, 20, 17, 27)
+                g?.drawLine(17, 27, 30, 14)
+            }
+            "+" -> {
+                g?.drawRect(12, 20, 15, 1)
+                g?.drawRect(19, 13, 1, 15)
             }
         }
     }

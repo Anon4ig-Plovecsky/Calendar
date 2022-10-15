@@ -1,6 +1,7 @@
 import javax.swing.*
 import java.util.*
 import java.awt.*
+import kotlin.collections.HashSet
 
 class MainWindow : JFrame() {
     companion object {
@@ -8,6 +9,8 @@ class MainWindow : JFrame() {
         @JvmStatic val keyDay = "NUMBER_OF_DAY"
         @JvmStatic val keyCurrentMonth = "CURRENT_MONTH"
         @JvmStatic val keyCurrentDay = "CURRENT_DAY"
+        @JvmStatic val keyTaskName = "TASK_NAME"
+        @JvmStatic val keyIsDone = "IS_DONE"
         //------------------------Colors------------------------//
         val standardColor = Color(39, 39, 53)
         val panelColor = Color(28, 28, 36)
@@ -20,12 +23,14 @@ class MainWindow : JFrame() {
         val pressedMouseOutlineColor = Color(103, 129, 71)
         val nonCurrentDaysColor = Color(104, 105, 106)
         //----------------------Dimensions----------------------//
-        const val windowWidth = 420
-        const val windowHeight = 710
         const val dayWidth = 60
         const val dayHeight = 50
+        const val taskWidth = 409
+        const val taskHeight = 45
         const val buttonWidth = 40
         const val buttonHeight = 40
+        const val windowWidth = 420
+        const val windowHeight = 710
         const val todoListWidth = 420
         const val todoListHeight = 250
     }
@@ -34,20 +39,20 @@ class MainWindow : JFrame() {
     //-----------------------Layouts------------------------//
     private lateinit var layoutFrame: BoxLayout
     private lateinit var gridLayout: GridLayout
-    private lateinit var todoList: TodoList
     //------------------------Panels------------------------//
+    private lateinit var todoList: TodoList
     private lateinit var buttonsPanel: JPanel
-    private lateinit var totalCalendarPanel: JPanel
     private lateinit var calendarPanel: JPanel
-    private lateinit var daysOfWeekPanel: JPanel
     private lateinit var monthPanel: MonthPanel
+    private lateinit var daysOfWeekPanel: JPanel
+    private lateinit var totalCalendarPanel: JPanel
     //--------------------Required date---------------------//
     private var requireMonth: Int = 0
     private var requireYear: Int = 0
     //--------------------Selected date---------------------//
-    private var selectedDay: Int = 0
-    private var selectedMonth: Int = 0
-    private var selectedYear: Int = 0
+    private var selectedDay: Int = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+    private var selectedMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
+    private var selectedYear: Int = Calendar.getInstance().get(Calendar.YEAR)
     //-----------------------Buttons------------------------//
     private lateinit var buttonDays: NavigationButton
     private lateinit var buttonMonths: NavigationButton
@@ -216,7 +221,7 @@ class MainWindow : JFrame() {
         totalCalendarPanel.add(calendarPanel)
     }
     private fun setTodoList() {
-        todoList = TodoList()
+        todoList = TodoList(HashSet<Map<String, String>>()) //TODO
         add(todoList)
     }
     //----------------------------------------------------------------------------
