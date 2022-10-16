@@ -4,8 +4,8 @@ import MainWindow.Companion.whiteColor
 import javax.swing.JLabel
 import javax.swing.JPanel
 import java.awt.Dimension
-import java.awt.Font
 import java.awt.Graphics
+import java.awt.Font
 
 class MonthPanel : JPanel() {
     private val month = JLabel()
@@ -13,7 +13,6 @@ class MonthPanel : JPanel() {
         background = panelColor
         add(month)
     }
-
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
     }

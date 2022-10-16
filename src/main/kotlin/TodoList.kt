@@ -1,8 +1,8 @@
 import javax.swing.plaf.basic.BasicScrollBarUI
 import javax.swing.border.LineBorder
+import java.time.LocalDateTime
 import javax.swing.*
 import java.awt.*
-import java.time.LocalDateTime
 
 class TodoList(
     private var taskList: MutableSet<Map<String, String>>

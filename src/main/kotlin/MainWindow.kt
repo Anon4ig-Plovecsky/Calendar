@@ -1,15 +1,15 @@
+import kotlin.collections.HashSet
 import javax.swing.*
 import java.util.*
 import java.awt.*
-import kotlin.collections.HashSet
 
 class MainWindow : JFrame() {
     companion object {
         //------------------------Keys--------------------------//
-        @JvmStatic val keyDay = "NUMBER_OF_DAY"
         @JvmStatic val keyCurrentMonth = "CURRENT_MONTH"
         @JvmStatic val keyCurrentDay = "CURRENT_DAY"
         @JvmStatic val keyTaskName = "TASK_NAME"
+        @JvmStatic val keyDay = "NUMBER_OF_DAY"
         @JvmStatic val keyIsDone = "IS_DONE"
         //------------------------Colors------------------------//
         val standardColor = Color(39, 39, 53)
@@ -59,6 +59,8 @@ class MainWindow : JFrame() {
     private lateinit var buttonYears: NavigationButton
     private lateinit var buttonPreviousMonth: FunctionButton
     private lateinit var buttonFollowingMonth: FunctionButton
+    //--------------------------------------------------------
+    private lateinit var database: Database
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
         minimumSize = Dimension(windowWidth, windowHeight)
@@ -71,6 +73,7 @@ class MainWindow : JFrame() {
         isResizable = false
         setLocationRelativeTo(null)
         pack()
+        createDatabase()
     }
     private fun createLayout() {
         layoutFrame = BoxLayout(contentPane, BoxLayout.Y_AXIS)
@@ -239,5 +242,9 @@ class MainWindow : JFrame() {
             days[i].setCurrentDay(dateQualifier.getInfoAboutMonth()[i][keyCurrentDay] == 1)
         }
         monthPanel.setMonth("${monthNames[requireMonth]} $requireYear")
+    }
+    //----------------------------------------------------------------------------
+    private fun createDatabase() {
+        database = Database()
     }
 }

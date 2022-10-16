@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+    implementation("org.mongodb:mongodb-driver-legacy:4.7.1")
+    implementation("org.mongodb:mongodb-driver-sync:4.7.1")
+    implementation("ch.qos.logback:logback-classic:1.4.3")
     testImplementation(kotlin("test"))
 }
 
