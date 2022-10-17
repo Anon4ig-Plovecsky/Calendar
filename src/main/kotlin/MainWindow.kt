@@ -1,4 +1,3 @@
-import kotlin.collections.HashSet
 import javax.swing.*
 import java.util.*
 import java.awt.*
@@ -64,6 +63,7 @@ class MainWindow : JFrame() {
     fun startApplication() {
         preferredSize = Dimension(windowWidth, windowHeight)
         minimumSize = Dimension(windowWidth, windowHeight)
+        createDatabase()
         createLayout()
         isVisible = true
         title = "Календарь"
@@ -73,7 +73,6 @@ class MainWindow : JFrame() {
         isResizable = false
         setLocationRelativeTo(null)
         pack()
-        createDatabase()
     }
     private fun createLayout() {
         layoutFrame = BoxLayout(contentPane, BoxLayout.Y_AXIS)
@@ -141,6 +140,7 @@ class MainWindow : JFrame() {
         totalCalendarPanel = JPanel()
         totalCalendarPanel.layout = BoxLayout(totalCalendarPanel, BoxLayout.Y_AXIS)
         totalCalendarPanel.size = Dimension(windowWidth, 350)
+        totalCalendarPanel.background = standardColor
         setDaysOfMonth()
         setCalendar()
         add(totalCalendarPanel)
@@ -224,7 +224,8 @@ class MainWindow : JFrame() {
         totalCalendarPanel.add(calendarPanel)
     }
     private fun setTodoList() {
-        todoList = TodoList(HashSet<Map<String, String>>()) //TODO
+        val taskList = database.find(selectedDay, selectedMonth, selectedYear)
+        todoList = TodoList(taskList)
         add(todoList)
     }
     //----------------------------------------------------------------------------

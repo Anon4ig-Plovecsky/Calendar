@@ -4,14 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Created a basis for working with database management system">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Database.kt" afterDir="false" />
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="MongoDB connected">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Database.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Database.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MonthPanel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +137,12 @@
       <workItem from="1665914496528" duration="927000" />
       <workItem from="1665916106482" duration="821000" />
       <workItem from="1665919213413" duration="3911000" />
-      <workItem from="1665932128186" duration="6707000" />
+      <workItem from="1665932128186" duration="6983000" />
+      <workItem from="1665973137719" duration="1836000" />
+      <workItem from="1665988295281" duration="1156000" />
+      <workItem from="1665991191882" duration="4787000" />
+      <workItem from="1665998044860" duration="2069000" />
+      <workItem from="1666022792409" duration="1764000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -240,7 +242,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665856227657</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="MongoDB connected">
+      <created>1665942139939</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1665942139939</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -273,6 +282,7 @@
     <MESSAGE value="Added navigation by month" />
     <MESSAGE value="Added JScrollPane" />
     <MESSAGE value="Created a basis for working with database management system" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created a basis for working with database management system" />
+    <MESSAGE value="MongoDB connected" />
+    <option name="LAST_COMMIT_MESSAGE" value="MongoDB connected" />
   </component>
 </project>
