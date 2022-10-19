@@ -3,74 +3,74 @@ import MainWindow.Companion.enteredMouseAreaColor
 import MainWindow.Companion.pressedMouseAreaColor
 import MainWindow.Companion.currentDayAreaColor
 import MainWindow.Companion.standardColor
-import MainWindow.Companion.dayHeight
-import MainWindow.Companion.dayWidth
 import javax.swing.JLabel
 import java.awt.*
 
-open class Day(
-    private var currentDay: Boolean,
+open class CalendarButton(
+    private var isCurrent: Boolean,
+    private val buttonWidth: Int,
+    private val buttonHeight: Int
 ) : Button() {
-    private val numberOfDayLabel = JLabel()
-    var pressedDay = false
+    private val jLabelInCalendarButton = JLabel()
+    var pressedCalendarButton = false
     //------------------------Initialize------------------------//
     init {
         callAddNumberOfDayLabel()
     }
     private fun callAddNumberOfDayLabel() {
-        add(numberOfDayLabel)
+        add(jLabelInCalendarButton)
     }
     //---------------------Override methods---------------------//
     override fun paintComponent(g: Graphics?) {
         super.paintComponent(g)
         isOpaque = true
     }
-    override fun getPreferredSize(): Dimension = Dimension(dayWidth, dayHeight)
+    override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
     //--------------------Implemented methods-------------------//
     override fun enteredMouse(g: Graphics?) {
-        if(!currentDay && !pressedDay) {
+        if(!isCurrent && !pressedCalendarButton) {
             background = enteredMouseAreaColor
             g?.color = enteredMouseOutlineColor
-            g?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
-            g?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
+            g?.drawRect(1, 1, buttonWidth - 2, buttonHeight - 1)
+            g?.drawLine(1, buttonHeight - 1, buttonWidth - 2, buttonHeight - 1)
         } else exitedMouse(g)
     }
     override fun exitedMouse(g: Graphics?) {
         super.exitedMouse(g)
-        if(currentDay) {
+        if(isCurrent) {
             background = currentDayAreaColor
             g?.color = MainWindow.currentDayOutlineColor
-        } else if(pressedDay) {
+        } else if(pressedCalendarButton) {
             background = pressedMouseAreaColor
             g?.color = MainWindow.pressedMouseOutlineColor
         } else {
             background = standardColor
             g?.color = standardColor
         }
-        g?.drawRect(1, 1, dayWidth - 2, dayHeight - 1)
-        g?.drawLine(1, dayHeight - 1, dayWidth - 2, dayHeight - 1)
+        g?.drawRect(1, 1, buttonWidth - 2, buttonHeight - 1)
+        g?.drawLine(1, buttonHeight - 1, buttonWidth - 2, buttonHeight - 1)
     }
     override fun releasedMouse(g: Graphics?) {
         super.releasedMouse(g)
         exitedMouse(g)
     }
     override fun actionButton(g: Graphics?) {
-        pressedDay = true
+        pressedCalendarButton = true
         exitedMouse(g)
     }
     //------------------------------------------------------------
-    fun setNumberOfDay(numberOfDayString: String, currentMonth: Boolean) {
+    fun setJLabelInCalendarButton(jLabelInCalendarButtonString: String, isCurrent: Boolean = true) {
         layout = GridBagLayout()
-        numberOfDayLabel.text = numberOfDayString
-        numberOfDayLabel.font = Font("Noto Sans", Font.PLAIN, 14)
-        if(currentMonth)
-            numberOfDayLabel.foreground = Color.WHITE
+        jLabelInCalendarButton.text = jLabelInCalendarButtonString
+        jLabelInCalendarButton.font = Font("Noto Sans", Font.PLAIN, 14)
+        if(isCurrent)
+            jLabelInCalendarButton.foreground = Color.WHITE
         else
-            numberOfDayLabel.foreground = MainWindow.nonCurrentDaysColor
+            jLabelInCalendarButton.foreground = MainWindow.nonCurrentDaysColor
         repaint()
     }
-    fun getNumberOfDay(): JLabel = numberOfDayLabel
-    fun setCurrentDay(currentDay: Boolean) {
-        this.currentDay = currentDay
+    fun getJLabelInCalendarButton(): JLabel = jLabelInCalendarButton
+    fun setIsCurrent(isCurrent: Boolean) {
+        this.isCurrent = isCurrent
     }
 }
