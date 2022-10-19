@@ -5,7 +5,7 @@ import java.awt.*
 open class Task(
     private val date: String,
     private val taskName: String,
-    private val isDone: Boolean
+    private var isDone: Boolean
 ) : JPanel(), TaskActivity {
     private lateinit var jTextField: JTextField
     //-------------------------Buttons-------------------------//
@@ -25,7 +25,7 @@ open class Task(
         jTextField.minimumSize = Dimension(315, 30)
         jTextField.preferredSize = Dimension(315, 30)
         jTextField.background = MainWindow.panelColor
-        jTextField.foreground = MainWindow.whiteColor
+        jTextField.foreground = if(isDone) MainWindow.nonCurrentDaysColor else MainWindow.whiteColor
         jTextField.font = Font("Noto Sans", Font.PLAIN, 14)
         jTextField.border = BorderFactory.createEmptyBorder()
         jTextField.addActionListener(object : AbstractAction() {
@@ -42,13 +42,22 @@ open class Task(
             }
         }
         add(deleteButton)
-        taskDoneButton = FunctionButton("done")
+        taskDoneButton = object : FunctionButton("done") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                isDone = !isDone
+                taskIsUpdated()
+            }
+        }
         add(taskDoneButton)
     }
+    //-------------------Implemented methods-------------------//
     override fun taskIsDeleted() {
         Database.getDatabase()?.delete(date, taskName)
     }
     override fun taskIsUpdated() {
         Database.getDatabase()?.addOrUpdate(date, jTextField.text, taskName, isDone)
     }
+    //-----------------------------------------------------------
+    fun getTaskName(): String = taskName
 }

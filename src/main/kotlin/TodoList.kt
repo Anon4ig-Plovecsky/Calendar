@@ -2,19 +2,22 @@ import javax.swing.plaf.basic.BasicScrollBarUI
 import javax.swing.border.LineBorder
 import kotlin.collections.HashMap
 import kotlin.collections.HashSet
-import java.time.LocalDateTime
+import kotlin.Comparator
 import javax.swing.*
+import java.util.*
 import java.awt.*
 
 class TodoList(
     private var selectedDate: String,
     private var taskList: MutableSet<Map<String, String>>
 ) : JPanel() {
+    private val defaultName = "Введите название задачи"
     private lateinit var addButton: FunctionButton
     private lateinit var jScrollPane: JScrollPane
     private lateinit var jScrollBar: JScrollBar
     private lateinit var finalJPanel: JPanel
     private var jScrollPanel: JPanel? = null
+    private var addedTask: Boolean = false
     init {
         layout = BoxLayout(this, BoxLayout.Y_AXIS)
         background = MainWindow.panelColor
@@ -120,7 +123,7 @@ class TodoList(
     //------------------------Filling JScrollPane-----------------------//
     fun fillScrollPane(taskList: MutableSet<Map<String, String>>, selectedDate: String) {
         this.selectedDate = selectedDate
-        this.taskList = taskList
+        this.taskList = HashSet(taskList)
         val jScrollPanelHeight = MainWindow.taskHeight * (taskList.size + 1) + taskList.size
         if(jScrollPanel != null)
             jScrollPane.viewport.remove(jScrollPanel)
@@ -149,6 +152,12 @@ class TodoList(
                 }
             }
         }
+        taskArray.sortWith(Comparator.comparing { i -> i.getTaskName().lowercase(Locale.getDefault())})
+        val index = taskArray.indexOfFirst { it.getTaskName().contains(defaultName) }
+        if(index != -1) {
+            taskArray += taskArray[index]
+            taskArray.drop(index)
+        }
         for(task in taskArray)
             jScrollPanel?.add(task)
         jScrollPanel?.add(finalJPanel)
@@ -165,6 +174,10 @@ class TodoList(
             Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
         }
         jScrollPane.viewport.add(jScrollPanel)
+        if(addedTask) {
+            jScrollPane.verticalScrollBar.value = jScrollPane.verticalScrollBar.maximum
+            addedTask = false
+        }
     }
     private fun setAddButton() {
         finalJPanel = object : JPanel() {
@@ -178,9 +191,10 @@ class TodoList(
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
                 val newTask = HashMap<String, String>()
-                newTask[MainWindow.keyTaskName] = LocalDateTime.now().toString()
+                newTask[MainWindow.keyTaskName] = defaultName
                 newTask[MainWindow.keyIsDone] = "false"
                 taskList.add(newTask)
+                addedTask = true
                 fillScrollPane(HashSet(taskList), selectedDate)
             }
         }

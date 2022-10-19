@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Database class created">
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/TaskActivity.kt" afterDir="false" />
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Database is fully functional">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Database.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Database.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Task.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Task.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" afterDir="false" />
     </list>
@@ -149,7 +145,7 @@
       <workItem from="1666087133012" duration="3064000" />
       <workItem from="1666112176624" duration="1258000" />
       <workItem from="1666115983461" duration="164000" />
-      <workItem from="1666158540820" duration="7266000" />
+      <workItem from="1666158540820" duration="13998000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -263,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666026241373</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Database is fully functional">
+      <created>1666166309075</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1666166309075</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -298,6 +301,7 @@
     <MESSAGE value="Created a basis for working with database management system" />
     <MESSAGE value="MongoDB connected" />
     <MESSAGE value="Database class created" />
-    <option name="LAST_COMMIT_MESSAGE" value="Database class created" />
+    <MESSAGE value="Database is fully functional" />
+    <option name="LAST_COMMIT_MESSAGE" value="Database is fully functional" />
   </component>
 </project>
