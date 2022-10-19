@@ -4,11 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="MongoDB connected">
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Database class created">
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/TaskActivity.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Database.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Database.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Task.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Task.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/TodoList.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,8 +53,8 @@
       <list>
         <option value="Class" />
         <option value="Kotlin Enum" />
-        <option value="Kotlin Interface" />
         <option value="Kotlin Class" />
+        <option value="Kotlin Interface" />
       </list>
     </option>
   </component>
@@ -142,7 +145,11 @@
       <workItem from="1665988295281" duration="1156000" />
       <workItem from="1665991191882" duration="4787000" />
       <workItem from="1665998044860" duration="2069000" />
-      <workItem from="1666022792409" duration="1764000" />
+      <workItem from="1666022792409" duration="2600000" />
+      <workItem from="1666087133012" duration="3064000" />
+      <workItem from="1666112176624" duration="1258000" />
+      <workItem from="1666115983461" duration="164000" />
+      <workItem from="1666158540820" duration="7266000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -249,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665942139939</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Database class created">
+      <created>1666026241373</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1666026241373</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -283,6 +297,7 @@
     <MESSAGE value="Added JScrollPane" />
     <MESSAGE value="Created a basis for working with database management system" />
     <MESSAGE value="MongoDB connected" />
-    <option name="LAST_COMMIT_MESSAGE" value="MongoDB connected" />
+    <MESSAGE value="Database class created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Database class created" />
   </component>
 </project>

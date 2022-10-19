@@ -1,10 +1,13 @@
 import javax.swing.plaf.basic.BasicScrollBarUI
 import javax.swing.border.LineBorder
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 import java.time.LocalDateTime
 import javax.swing.*
 import java.awt.*
 
 class TodoList(
+    private var selectedDate: String,
     private var taskList: MutableSet<Map<String, String>>
 ) : JPanel() {
     private lateinit var addButton: FunctionButton
@@ -18,7 +21,7 @@ class TodoList(
         setScrollBar()
         setAddButton()
         setJScrollPane()
-        fillScrollPane(HashSet(taskList))
+        fillScrollPane(HashSet(taskList), selectedDate)
     }
     //-------------------------Override methods-------------------------//
     override fun getPreferredSize(): Dimension = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
@@ -30,8 +33,6 @@ class TodoList(
         jScrollPane.verticalScrollBar = jScrollBar
         jScrollPane.verticalScrollBarPolicy = JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
         jScrollPane.horizontalScrollBarPolicy = JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
-        jScrollPane.minimumSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
-        jScrollPane.preferredSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
         jScrollPane.background = MainWindow.panelColor
         jScrollPane.foreground = MainWindow.panelColor
         jScrollPane.verticalScrollBar.unitIncrement = 10
@@ -117,7 +118,9 @@ class TodoList(
         }
     }
     //------------------------Filling JScrollPane-----------------------//
-    private fun fillScrollPane(taskList: MutableSet<Map<String, String>>) {
+    fun fillScrollPane(taskList: MutableSet<Map<String, String>>, selectedDate: String) {
+        this.selectedDate = selectedDate
+        this.taskList = taskList
         val jScrollPanelHeight = MainWindow.taskHeight * (taskList.size + 1) + taskList.size
         if(jScrollPanel != null)
             jScrollPane.viewport.remove(jScrollPanel)
@@ -131,17 +134,36 @@ class TodoList(
         }
         var taskArray: Array<Task> = emptyArray()
         for(task in taskList) {
-            taskArray += Task(
+            taskArray += object : Task(
+                selectedDate,
                 task[MainWindow.keyTaskName]!!,
                 task[MainWindow.keyIsDone]!! == "true"
-            )
+            ) {
+                override fun taskIsDeleted() {
+                    super.taskIsDeleted()
+                    fillScrollPane(Database.getDatabase()?.find(selectedDate)!!, selectedDate)
+                }
+                override fun taskIsUpdated() {
+                    super.taskIsUpdated()
+                    fillScrollPane(Database.getDatabase()?.find(selectedDate)!!, selectedDate)
+                }
+            }
         }
         for(task in taskArray)
             jScrollPanel?.add(task)
         jScrollPanel?.add(finalJPanel)
-        jScrollPane.size = if(jScrollPanelHeight + 5 > MainWindow.todoListHeight)
+        jScrollPane.size = if(jScrollPanelHeight + 5 > MainWindow.todoListHeight) {
+            jScrollPane.minimumSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
+            jScrollPane.maximumSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
+            jScrollPane.preferredSize = Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
             Dimension(MainWindow.todoListWidth, MainWindow.todoListHeight)
-        else Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+        }
+        else {
+            jScrollPane.minimumSize = Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+            jScrollPane.preferredSize = Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+            jScrollPane.maximumSize = Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+            Dimension(MainWindow.todoListWidth, jScrollPanelHeight + 5)
+        }
         jScrollPane.viewport.add(jScrollPanel)
     }
     private fun setAddButton() {
@@ -159,7 +181,7 @@ class TodoList(
                 newTask[MainWindow.keyTaskName] = LocalDateTime.now().toString()
                 newTask[MainWindow.keyIsDone] = "false"
                 taskList.add(newTask)
-                fillScrollPane(HashSet(taskList))
+                fillScrollPane(HashSet(taskList), selectedDate)
             }
         }
         finalJPanel.add(addButton)

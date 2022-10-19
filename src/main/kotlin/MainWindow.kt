@@ -212,6 +212,8 @@ class MainWindow : JFrame() {
                         days[j].pressedDay = false
                         days[j].repaint()
                     }
+                todoList.fillScrollPane(database.find("$selectedYear-$selectedMonth-$selectedDay"),
+                    "$selectedYear-$selectedMonth-$selectedDay")
             }
         } }
         for(i in days.indices) {
@@ -224,8 +226,13 @@ class MainWindow : JFrame() {
         totalCalendarPanel.add(calendarPanel)
     }
     private fun setTodoList() {
-        val taskList = database.find(selectedDay, selectedMonth, selectedYear)
-        todoList = TodoList(taskList)
+        val taskList: MutableSet<Map<String, String>>
+        try {
+            taskList = database.find("$selectedYear-$selectedMonth-$selectedDay")
+        } catch(e: Exception) {
+            throw Exception("Failed to open mongodb: $e")
+        }
+        todoList = TodoList("$selectedYear-$selectedMonth-$selectedDay", taskList)
         add(todoList)
     }
     //----------------------------------------------------------------------------

@@ -10,7 +10,7 @@ class Database {
     companion object {
         private var database: Database? = null
         fun getDatabase(): Database? = if(database != null) database else null
-    } //TODO
+    }
     //-------------------Database keys-------------------//
     private val keyDate = "date"
     private val keyTask = "task"
@@ -28,21 +28,21 @@ class Database {
         mongoCollection = mongoDatabase?.getCollection("todoList")
     }
     //------------------Private methods------------------//
-    private fun findOne(day: Int, month: Int, year: Int, task: String): Document? {
-        val searchValue = Document(keyDate, "$year-$month-$day")
+    private fun findOne(date: String, task: String): Document? {
+        val searchValue = Document(keyDate, date)
         searchValue.append(keyTask, task)
         return mongoCollection?.find(searchValue)?.first()
     }
-    private fun add(day: Int, month: Int, year: Int, task: String) {
-        document = Document(keyDate, "$year-$month-$day")
+    private fun add(date: String, task: String) {
+        document = Document(keyDate, date)
         document?.append(keyTask, task)
         document?.append(keyTaskIsDone, "false")
         mongoCollection?.insertOne(document!!)
     }
     //-------------------Public methods------------------//
-    fun find(day: Int, month: Int, year: Int): MutableSet<Map<String, String>> {
+    fun find(date: String): MutableSet<Map<String, String>> {
         val taskList = HashSet<Map<String, String>>()
-        val search: MongoCursor<Document>? = mongoCollection?.find(Document(keyDate, "$year-$month-$day"))?.iterator()
+        val search: MongoCursor<Document>? = mongoCollection?.find(Document(keyDate, date))?.iterator()
         return if(search != null) {
             while (search.hasNext()) {
                 val jsonObject = JSONObject(search.next().toJson())
@@ -54,17 +54,17 @@ class Database {
             taskList
         } else HashSet()
     }
-    fun addOrUpdate(day: Int, month: Int, year: Int, newTask: String, oldTask: String) {
-        val search = findOne(day, month, year, oldTask)
+    fun addOrUpdate(date: String, newTask: String, oldTask: String, isDone: Boolean) {
+        val search = findOne(date, oldTask)
         if(search != null) {
-            val updateValue: Bson = Document(keyTask, newTask)
+            val updateValue: Bson = Document(keyTask, newTask).append(keyTaskIsDone, isDone.toString())
             val updateOperation: Bson = Document("\$set", updateValue)
             mongoCollection?.updateOne(search, updateOperation)
         } else
-            add(day, month, year, newTask)
+            add(date, newTask)
     }
-    fun delete(day: Int, month: Int, year: Int, task: String) {
-        val search = findOne(day, month, year, task)
+    fun delete(date: String, task: String) {
+        val search = findOne(date, task)
         if(search != null)
             mongoCollection?.deleteOne(search)
     }

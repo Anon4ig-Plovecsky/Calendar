@@ -1,10 +1,12 @@
+import java.awt.event.ActionEvent
 import javax.swing.*
 import java.awt.*
 
-class Task(
+open class Task(
+    private val date: String,
     private val taskName: String,
     private val isDone: Boolean
-) : JPanel() {
+) : JPanel(), TaskActivity {
     private lateinit var jTextField: JTextField
     //-------------------------Buttons-------------------------//
     private lateinit var deleteButton: FunctionButton
@@ -26,10 +28,27 @@ class Task(
         jTextField.foreground = MainWindow.whiteColor
         jTextField.font = Font("Noto Sans", Font.PLAIN, 14)
         jTextField.border = BorderFactory.createEmptyBorder()
+        jTextField.addActionListener(object : AbstractAction() {
+            override fun actionPerformed(e: ActionEvent?) {
+                if(jTextField.text.isNotEmpty())
+                    taskIsUpdated()
+            }
+        })
         add(jTextField)
-        deleteButton = FunctionButton("-")
+        deleteButton = object : FunctionButton("-") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                taskIsDeleted()
+            }
+        }
         add(deleteButton)
         taskDoneButton = FunctionButton("done")
         add(taskDoneButton)
+    }
+    override fun taskIsDeleted() {
+        Database.getDatabase()?.delete(date, taskName)
+    }
+    override fun taskIsUpdated() {
+        Database.getDatabase()?.addOrUpdate(date, jTextField.text, taskName, isDone)
     }
 }
