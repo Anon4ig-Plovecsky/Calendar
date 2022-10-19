@@ -114,7 +114,6 @@ class MainWindow : JFrame() {
         buttonDays = object : NavigationButton(90, 40, "Дни", true) {
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
-                isActiveButton = true
                 openDaysPanel()
             }
         }
@@ -124,7 +123,6 @@ class MainWindow : JFrame() {
         buttonMonths = object : NavigationButton(120, 40, "Месяцы") {
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
-                isActiveButton = true
                 openMonthsPanel()
             }
         }
@@ -147,7 +145,7 @@ class MainWindow : JFrame() {
                     CalendarPanels.MONTHS_PANEL -> {
                         requireYear--
                         changeCalendarDays(requireMonth, requireYear)
-                        changeCalendarMonth(requireMonth, requireYear)
+                        changeCalendarMonth(requireYear)
                     }
                     CalendarPanels.YEARS_PANEL -> TODO()
                 }
@@ -167,7 +165,7 @@ class MainWindow : JFrame() {
                     CalendarPanels.MONTHS_PANEL -> {
                         requireYear++
                         changeCalendarDays(requireMonth, requireYear)
-                        changeCalendarMonth(requireMonth, requireYear)
+                        changeCalendarMonth(requireYear)
                     }
                     CalendarPanels.YEARS_PANEL -> TODO()
                 }
@@ -236,6 +234,7 @@ class MainWindow : JFrame() {
         calendarPanel = object : JPanel() {
             init {
                 layout = GridLayout(6, 7)
+                background = standardColor
             }
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, dayHeight * 6)
             override fun getMinimumSize(): Dimension = Dimension(windowWidth, dayHeight * 6)
@@ -291,12 +290,10 @@ class MainWindow : JFrame() {
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
                 requireMonth = monthNames.indexOfFirst { i -> i == getJLabelInCalendarButton().text }
-                changeCalendarDays(requireMonth, requireYear) //TODO
-                for(j in monthsArray.indices)
-                    if(i != j) {
-                        monthsArray[j].pressedCalendarButton = false
-                        monthsArray[j].repaint()
-                    }
+                for(j in monthsArray.indices) {
+                    monthsArray[j].pressedCalendarButton = false
+                    monthsArray[j].repaint()
+                }
                 openDaysPanel()
             }
         }}
@@ -332,9 +329,11 @@ class MainWindow : JFrame() {
         }
         monthPanel.setMonth("${monthNames[requireMonth]} $requireYear")
     }
-    private fun changeCalendarMonth(month: Int, year: Int) {
+    private fun changeCalendarMonth(year: Int) {
         for(i in monthsArray.indices) {
-            monthsArray[i].setIsCurrent((month == i && year == Calendar.getInstance().get(1)))
+            monthsArray[i].setIsCurrent((Calendar.getInstance().get(Calendar.MONTH) == i
+                    && year == Calendar.getInstance().get(1)))
+            monthsArray[i].pressedCalendarButton = (selectedMonth == i && year == selectedYear)
             monthsArray[i].repaint()
         }
     }
@@ -346,8 +345,7 @@ class MainWindow : JFrame() {
     private fun openDaysPanel() {
         buttonYears.isActiveButton = false
         buttonMonths.isActiveButton = false
-        buttonYears.repaint()
-        buttonMonths.repaint()
+        buttonDays.isActiveButton = true
         removeFromTotalCalendarPanel()
         totalCalendarPanel.repaint()
         totalCalendarPanel.add(totalCalendarPanelDays)
@@ -357,19 +355,21 @@ class MainWindow : JFrame() {
     private fun openMonthsPanel() {
         buttonDays.isActiveButton = false
         buttonYears.isActiveButton = false
-        buttonDays.repaint()
-        buttonYears.repaint()
+        buttonMonths.isActiveButton = true
         removeFromTotalCalendarPanel()
         totalCalendarPanel.repaint()
         totalCalendarPanel.add(totalCalendarPanelMonths)
         enumCalendarPanels = CalendarPanels.MONTHS_PANEL
         changeCalendarDays(requireMonth, requireYear)
-        changeCalendarMonth(requireMonth, requireYear)
+        changeCalendarMonth(requireYear)
     }
     private fun openYearsPanel() {
 
     }
     private fun removeFromTotalCalendarPanel() {
+        buttonYears.repaint()
+        buttonMonths.repaint()
+        buttonDays.repaint()
         when(enumCalendarPanels) {
             CalendarPanels.DAYS_PANEL -> totalCalendarPanel.remove(totalCalendarPanelDays)
             CalendarPanels.MONTHS_PANEL -> totalCalendarPanel.remove(totalCalendarPanelMonths)
