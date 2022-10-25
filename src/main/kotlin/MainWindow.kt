@@ -26,17 +26,18 @@ class MainWindow : JFrame() {
         const val dayHeight = 50
         const val taskWidth = 409
         const val taskHeight = 45
-        const val monthWidth = 140
-        const val monthHeight = 87
         const val buttonWidth = 40
         const val buttonHeight = 40
         const val windowWidth = 420
         const val windowHeight = 710
         const val todoListWidth = 420
         const val todoListHeight = 250
+        const val monthOrYearWidth = 140
+        const val monthOrYearHeight = 87
     }
     private lateinit var daysArray: Array<CalendarButton>
     private lateinit var monthsArray: Array<CalendarButton>
+    private lateinit var yearsArray: Array<CalendarButton>
     private lateinit var monthNames: Array<String>
     //-----------------------Layouts------------------------//
     private lateinit var layoutFrame: BoxLayout
@@ -89,6 +90,7 @@ class MainWindow : JFrame() {
         setArrowButtonsPanel()
         setTotalCalendarPanelDays()
         setTotalCalendarPanelMonths()
+        setTotalCalendarPanelYears()
         setTodoList()
     }
     //------------------------------------Set Panels------------------------------------//
@@ -129,7 +131,12 @@ class MainWindow : JFrame() {
         buttonsPanel.add(buttonMonths)
         buttonMonths.setText()
         //---------------------------Years---------------------------//
-        buttonYears = NavigationButton(90, 40, "Годы")
+        buttonYears = object : NavigationButton(90, 40, "Годы") {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                openYearsPanel()
+            }
+        }
         buttonsPanel.add(buttonYears)
         buttonYears.setText()
         //-----------------------Previous month----------------------//
@@ -147,7 +154,12 @@ class MainWindow : JFrame() {
                         changeCalendarDays(requireMonth, requireYear)
                         changeCalendarMonth(requireYear)
                     }
-                    CalendarPanels.YEARS_PANEL -> TODO()
+                    CalendarPanels.YEARS_PANEL -> {
+                        requireYear -= 10
+                        changeCalendarDays(requireMonth, requireYear)
+                        changeCalendarMonth(requireYear)
+                        changeCalendarYears(requireYear)
+                    }
                 }
             }
         }
@@ -167,7 +179,12 @@ class MainWindow : JFrame() {
                         changeCalendarDays(requireMonth, requireYear)
                         changeCalendarMonth(requireYear)
                     }
-                    CalendarPanels.YEARS_PANEL -> TODO()
+                    CalendarPanels.YEARS_PANEL -> {
+                        requireYear += 10
+                        changeCalendarDays(requireMonth, requireYear)
+                        changeCalendarMonth(requireYear)
+                        changeCalendarYears(requireYear)
+                    }
                 }
             }
         }
@@ -182,7 +199,7 @@ class MainWindow : JFrame() {
         setDaysOfMonth()
         setCalendar()
         setTotalCalendarPanel()
-        totalCalendarPanel.add(totalCalendarPanelDays) //TODO
+        totalCalendarPanel.add(totalCalendarPanelDays)
     }
     private fun setTotalCalendarPanel() {
         totalCalendarPanel = JPanel()
@@ -285,7 +302,7 @@ class MainWindow : JFrame() {
         totalCalendarPanelMonths.size = Dimension(windowWidth, 348)
         monthsArray = Array(12) { i -> object : CalendarButton(
             (requireMonth == i && requireYear == selectedYear),
-            monthWidth, monthHeight
+            monthOrYearWidth, monthOrYearHeight
         ) {
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
@@ -301,7 +318,33 @@ class MainWindow : JFrame() {
             totalCalendarPanelMonths.add(monthsArray[i])
             monthsArray[i].setJLabelInCalendarButton(monthNames[i])
         }
-//        totalCalendarPanel.add(totalCalendarPanelMonths) //TODO
+    }
+    private fun setTotalCalendarPanelYears() {
+        totalCalendarPanelYears = JPanel()
+        totalCalendarPanelYears.background = standardColor
+        totalCalendarPanelYears.layout = GridLayout(4, 3)
+        totalCalendarPanelYears.minimumSize = Dimension(windowWidth, 348)
+        totalCalendarPanelYears.preferredSize = Dimension(windowWidth, 348)
+        totalCalendarPanelYears.size = Dimension(windowWidth, 348)
+        val yearsStringArray = getYearsStringArray(requireYear)
+        yearsArray = Array(12) { i -> object : CalendarButton(
+            yearsStringArray[i].toInt() == selectedYear,
+            monthOrYearWidth, monthOrYearHeight
+        ) {
+            override fun actionButton(g: Graphics?) {
+                super.actionButton(g)
+                requireYear = getJLabelInCalendarButton().text.toInt()
+                for(j in yearsArray.indices) {
+                    yearsArray[j].pressedCalendarButton = false
+                    yearsArray[j].repaint()
+                }
+                openMonthsPanel()
+            }
+        }}
+        for(i in yearsArray.indices) {
+            totalCalendarPanelYears.add(yearsArray[i])
+            yearsArray[i].setJLabelInCalendarButton(yearsStringArray[i], (i != 0 && i != 11))
+        }
     }
     private fun setTodoList() {
         val taskList: MutableSet<Map<String, String>>
@@ -337,6 +380,16 @@ class MainWindow : JFrame() {
             monthsArray[i].repaint()
         }
     }
+    private fun changeCalendarYears(year: Int) {
+        val yearStringArray = getYearsStringArray(year)
+        for(i in yearsArray.indices) {
+            yearsArray[i].setJLabelInCalendarButton(yearStringArray[i], (i != 0 && i != 11))
+            yearsArray[i].setIsCurrent(
+                (Calendar.getInstance().get(Calendar.YEAR) == yearsArray[i].getJLabelInCalendarButton().text.toInt()))
+            yearsArray[i].pressedCalendarButton = (yearStringArray[i].toInt() == selectedYear)
+            yearsArray[i].repaint()
+        }
+    }
     //----------------------------------------------------------------------------
     private fun createDatabase() {
         database = Database()
@@ -364,7 +417,16 @@ class MainWindow : JFrame() {
         changeCalendarMonth(requireYear)
     }
     private fun openYearsPanel() {
-
+        buttonDays.isActiveButton = false
+        buttonMonths.isActiveButton = false
+        buttonYears.isActiveButton = true
+        removeFromTotalCalendarPanel()
+        totalCalendarPanel.repaint()
+        totalCalendarPanel.add(totalCalendarPanelYears)
+        enumCalendarPanels = CalendarPanels.YEARS_PANEL
+        changeCalendarDays(requireMonth, requireYear)
+        changeCalendarMonth(requireYear)
+        changeCalendarYears(requireYear)
     }
     private fun removeFromTotalCalendarPanel() {
         buttonYears.repaint()
@@ -375,5 +437,13 @@ class MainWindow : JFrame() {
             CalendarPanels.MONTHS_PANEL -> totalCalendarPanel.remove(totalCalendarPanelMonths)
             CalendarPanels.YEARS_PANEL -> totalCalendarPanel.remove(totalCalendarPanelYears)
         }
+    }
+    //----------------------------------------------------------------------------
+    private fun getYearsStringArray(year: Int): Array<String> {
+        val yearsStringArray = Array(12) { "" }
+        val begin = year - (year % 10) - 1
+        for(i in 0 until 12)
+            yearsStringArray[i] = (begin + i).toString()
+        return yearsStringArray
     }
 }

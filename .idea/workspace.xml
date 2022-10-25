@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Added month navigation panel">
+    <list default="true" id="87be7783-7cfe-4548-8d5c-fa81d8b85b29" name="Changes" comment="Added month navigation panel (fixed graphical bugs)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/MainWindow.kt" afterDir="false" />
     </list>
@@ -145,7 +145,8 @@
       <workItem from="1666112176624" duration="1258000" />
       <workItem from="1666115983461" duration="164000" />
       <workItem from="1666158540820" duration="19071000" />
-      <workItem from="1666198003441" duration="4798000" />
+      <workItem from="1666198003441" duration="5821000" />
+      <workItem from="1666682281659" duration="4897000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1664561352908</created>
@@ -280,7 +281,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666202301286</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Added month navigation panel (fixed graphical bugs)">
+      <created>1666203563725</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1666203563725</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,6 +326,7 @@
     <MESSAGE value="Database is fully functional" />
     <MESSAGE value="Added month navigation bar" />
     <MESSAGE value="Added month navigation panel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added month navigation panel" />
+    <MESSAGE value="Added month navigation panel (fixed graphical bugs)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added month navigation panel (fixed graphical bugs)" />
   </component>
 </project>
