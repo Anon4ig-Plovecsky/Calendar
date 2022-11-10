@@ -4,7 +4,7 @@ import java.awt.*
 
 class MainWindow : JFrame() {
     companion object {
-        val defaultName = "Введите название задачи"
+        const val defaultName = "Введите название задачи"
         //------------------------Keys--------------------------//
         @JvmStatic val keyCurrentMonth = "CURRENT_MONTH"
         @JvmStatic val keyCurrentDay = "CURRENT_DAY"
