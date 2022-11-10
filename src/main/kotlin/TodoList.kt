@@ -11,7 +11,6 @@ class TodoList(
     private var selectedDate: String,
     private var taskList: MutableSet<Map<String, String>>
 ) : JPanel() {
-    private val defaultName = "Введите название задачи"
     private lateinit var addButton: FunctionButton
     private lateinit var jScrollPane: JScrollPane
     private lateinit var jScrollBar: JScrollBar
@@ -153,7 +152,7 @@ class TodoList(
             }
         }
         taskArray.sortWith(Comparator.comparing { i -> i.getTaskName().lowercase(Locale.getDefault())})
-        val index = taskArray.indexOfFirst { it.getTaskName().contains(defaultName) }
+        val index = taskArray.indexOfFirst { it.getTaskName().contains(MainWindow.defaultName) }
         if(index != -1) {
             taskArray += taskArray[index]
             taskArray.drop(index)
@@ -191,7 +190,7 @@ class TodoList(
             override fun actionButton(g: Graphics?) {
                 super.actionButton(g)
                 val newTask = HashMap<String, String>()
-                newTask[MainWindow.keyTaskName] = defaultName
+                newTask[MainWindow.keyTaskName] = MainWindow.defaultName
                 newTask[MainWindow.keyIsDone] = "false"
                 taskList.add(newTask)
                 addedTask = true

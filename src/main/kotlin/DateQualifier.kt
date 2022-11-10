@@ -31,7 +31,7 @@ class DateQualifier constructor () {
         year = currentYear
         todayDay.set(year, month, 1)
     }
-    fun setInfoAboutMonth(): Array<MutableMap<String, Int>> {
+    fun setInfoAboutMonth() {
         val maxDayCurrentMonth = todayDay.getActualMaximum(Calendar.DAY_OF_MONTH)
         dayOfWeek = (7 + todayDay.get(Calendar.DAY_OF_WEEK) - 2) % 7
         //---------------Days before current month--------------//
@@ -41,12 +41,12 @@ class DateQualifier constructor () {
             todayDay.set(previousYear, previousMonth, 1)
             val previousDay = todayDay.getActualMaximum(Calendar.DAY_OF_MONTH) - dayOfWeek + 1
             for(day in previousDay .. todayDay.getActualMaximum(Calendar.DAY_OF_MONTH))
-                feelDayOfWeek(day, previousMonth, previousYear, false)
+                fillDayOfWeek(day, previousMonth, previousYear, false)
             todayDay.set(year, month, 1)
         }
         //---------------------Current days---------------------//
         for(day in 1 .. maxDayCurrentMonth)
-            feelDayOfWeek(day, month, year, true)
+            fillDayOfWeek(day, month, year, true)
         dayOfWeek = (7 + todayDay.get(Calendar.DAY_OF_WEEK) - 2) % 7
         //---------------Days after current month---------------//
         if(dayOfWeek < 6 || index < 42) {
@@ -55,13 +55,12 @@ class DateQualifier constructor () {
             for(day in 1..28) {
                 if(index >= 42)
                     break
-                feelDayOfWeek(day, followingMonth, followingYear, false)
+                fillDayOfWeek(day, followingMonth, followingYear, false)
             }
         }
-        return infoDays
     }
     fun getInfoAboutMonth(): Array<MutableMap<String, Int>> = infoDays
-    private fun feelDayOfWeek(day: Int, month: Int, year: Int, isCurrentMonth: Boolean) {
+    private fun fillDayOfWeek(day: Int, month: Int, year: Int, isCurrentMonth: Boolean) {
         todayDay.set(year, month, day)
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day)

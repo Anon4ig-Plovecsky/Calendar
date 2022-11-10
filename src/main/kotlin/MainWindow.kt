@@ -4,6 +4,7 @@ import java.awt.*
 
 class MainWindow : JFrame() {
     companion object {
+        val defaultName = "Введите название задачи"
         //------------------------Keys--------------------------//
         @JvmStatic val keyCurrentMonth = "CURRENT_MONTH"
         @JvmStatic val keyCurrentDay = "CURRENT_DAY"
@@ -34,6 +35,9 @@ class MainWindow : JFrame() {
         const val todoListHeight = 250
         const val monthOrYearWidth = 140
         const val monthOrYearHeight = 87
+        //----------------------Unit Tests----------------------//
+        lateinit var graphicsEnvironment: GraphicsEnvironment
+        lateinit var graphicsDevice: GraphicsDevice
     }
     private lateinit var daysArray: Array<CalendarButton>
     private lateinit var monthsArray: Array<CalendarButton>
@@ -81,6 +85,8 @@ class MainWindow : JFrame() {
         isResizable = false
         setLocationRelativeTo(null)
         pack()
+        graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment()
+        graphicsDevice = graphicsEnvironment.defaultScreenDevice
     }
     private fun createLayout() {
         layoutFrame = BoxLayout(contentPane, BoxLayout.Y_AXIS)
@@ -394,7 +400,7 @@ class MainWindow : JFrame() {
     private fun createDatabase() {
         database = Database()
     }
-    //----------------------------------------------------------------------------
+    //-------------------------------Open panels--------------------------------//
     private fun openDaysPanel() {
         buttonYears.isActiveButton = false
         buttonMonths.isActiveButton = false

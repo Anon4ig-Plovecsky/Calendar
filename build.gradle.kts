@@ -19,6 +19,10 @@ dependencies {
     implementation("org.json:json:20220924")
     testImplementation(kotlin("test"))
     implementation(kotlin("stdlib-jdk8"))
+    testImplementation("org.junit.jupiter:junit-jupiter-params:5.9.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.netbeans:jemmy:2.2.7.5")
 }
 
 tasks.test {
