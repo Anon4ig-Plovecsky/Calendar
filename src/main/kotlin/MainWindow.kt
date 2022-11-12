@@ -73,8 +73,6 @@ class MainWindow : JFrame() {
     private var enumCalendarPanels = CalendarPanels.DAYS_PANEL
     private lateinit var database: Database
     fun startApplication() {
-        preferredSize = Dimension(windowWidth, windowHeight)
-        minimumSize = Dimension(windowWidth, windowHeight)
         createDatabase()
         createLayout()
         isVisible = true
@@ -83,8 +81,16 @@ class MainWindow : JFrame() {
         contentPane.background = standardColor
         contentPane.foreground = standardColor
         isResizable = false
-        setLocationRelativeTo(null)
         pack()
+        setLocationRelativeTo(null)
+        val screenSize = Toolkit.getDefaultToolkit().screenSize
+        val locationX = (screenSize.width - windowWidth + 16) / 2
+        val locationY = (screenSize.height - windowHeight) / 2
+        setBounds(locationX, locationY, windowWidth + 16, windowHeight)
+        preferredSize = Dimension(windowWidth + 16, windowHeight)
+        minimumSize = Dimension(windowWidth + 16, windowHeight)
+        maximumSize = Dimension(windowWidth + 16, windowHeight)
+        size = Dimension(windowWidth + 16, windowHeight)
         graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment()
         graphicsDevice = graphicsEnvironment.defaultScreenDevice
     }
@@ -117,7 +123,9 @@ class MainWindow : JFrame() {
             }
             override fun getMinimumSize(): Dimension = Dimension(windowWidth, 50)
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
+            override fun getMaximumSize(): Dimension = Dimension(windowWidth, 50)
         }
+        buttonsPanel.size = Dimension(windowWidth, 50)
         //---------------------------Days----------------------------//
         buttonDays = object : NavigationButton(90, 40, "Дни", true) {
             override fun actionButton(g: Graphics?) {
@@ -201,6 +209,9 @@ class MainWindow : JFrame() {
         totalCalendarPanelDays = JPanel()
         totalCalendarPanelDays.layout = BoxLayout(totalCalendarPanelDays, BoxLayout.Y_AXIS)
         totalCalendarPanelDays.size = Dimension(windowWidth, 350)
+        totalCalendarPanelDays.minimumSize = Dimension(windowWidth, 350)
+        totalCalendarPanelDays.preferredSize = Dimension(windowWidth, 350)
+        totalCalendarPanelDays.maximumSize = Dimension(windowWidth, 350)
         totalCalendarPanelDays.background = standardColor
         setDaysOfMonth()
         setCalendar()
@@ -223,8 +234,11 @@ class MainWindow : JFrame() {
             init {
                 background = standardColor
                 layout = gridLayout
+                size = Dimension(windowWidth, 50)
             }
             override fun getPreferredSize(): Dimension = Dimension(windowWidth, 50)
+            override fun getMinimumSize(): Dimension = Dimension(windowWidth, 50)
+            override fun getMaximumSize(): Dimension = Dimension(windowWidth, 50)
         }
         val daysOfMonthStrings = arrayOf("пн", "вт", "ср", "чт", "пт", "сб", "вс")
         val daysOfMonthObjects = Array(7) { i ->

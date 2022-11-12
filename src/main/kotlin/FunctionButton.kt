@@ -34,10 +34,12 @@ open class FunctionButton(
         super.paintComponent(g)
         background = MainWindow.panelColor
         g?.drawRect(0, 0, buttonWidth - 1, buttonHeight - 1)
+        size = Dimension(buttonWidth, buttonHeight)
         setSymbol(g)
     }
     override fun getPreferredSize(): Dimension = Dimension(buttonWidth, buttonHeight)
     override fun getMinimumSize(): Dimension = Dimension(buttonWidth, buttonHeight)
+    override fun getMaximumSize(): Dimension = Dimension(buttonWidth, buttonHeight)
     //----------------------------------------------------------------
     private fun setSymbol(g: Graphics?) {
         g?.color = MainWindow.whiteColor
